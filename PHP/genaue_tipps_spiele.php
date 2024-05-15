@@ -5,19 +5,32 @@ require_once "../config.php";
 if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
     $db = new Database();
     $conn = $db->connect();
-    $host = new Host($conn);
-    $event = new Event($conn);
+
+    $user = new User($conn);
+    $user_event = $user->get_UserEvent();
     $spiel = new Spiel($conn);
+    $tippgenau = new TippGenau($conn);
     $id_event = $_SESSION['event_id'];
     $id_spiel = $_GET['spiel_id'];
-    $host->initHost($id_event);
-    $event->initEventSpiele($id_event);
-    $spiel->initSpieleEvent($id_event);
-    $event_data = $event->getEventSpiele();
-    $id_host = $event_data['event_host'];
-    $host->initHost($id_host);
-    $host_data = $host->getHost();
-    $spiele_data = $spiel->getSpielData();
+    $user_event->initEventUsers($id_event);
+    $user_event_ids = $user_event->getUsersId();
+    $users_dispo = count($user_event_ids['event_users']);
+    foreach ($user_event_ids['event_users'] as $user_id) {
+        $user->initUser($user_id);
+        $user_data = $user->getUser();
+    }
+    $spiel->initSpieleResults($id_event);
+    $spiele_data = $spiel->getSpieleResults();
+    $users_ids = $user_event_ids['event_users'];
+    $spiele_ids = $spiele_data['spiel_id'];
+
+    foreach ($users_ids as $user_id) {
+        foreach ($spiele_ids as $spiel_id) {
+            $init_tipp_data = [$spiel_id, $user_id];
+            $tippgenau->initGenauTipp($init_tipp_data);
+            $tippgenau_data = $tippgenau->getTippGenauAll();
+        }
+    }
 }
 ?>
 
@@ -41,18 +54,51 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
     <h1>Genaue Tipps</h1>
     <hr>
     <div class="container">
-        <div class="event_info">
-            <div class="details"><?php echo $host_data['host_fullname']; ?></div>
-            <div>
-                <hr>
-            </div>
-            <div class="details"><?php echo $event_data['event_name']; ?></div>
-            <div>
-                <hr>
-            </div>
+        <div class="tipp_genau_info">
+            <?php
+            $users_ids = $user_event_ids['event_users'];
+            foreach ($users_ids as $user_id_key => $user_id_value) {
+                $user->initUser($user_id_value);
+                $user_data = $user->getUser(); ?>
+                <h2><?php echo $user_data['user_name']; ?> </h2>
+                <table>
+                    <tr>
+                        <th>Spiel</th>
+                        <th>Tordifferenz</th>
+                        <th>Datum</th>
+                    </tr>
+                    <?php
+                    for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
+                        $spiel_id = $spiele_data['spiel_id'][$i];
+                        $spiel_name = $spiele_data['spiel_name'][$i];
+                        $init_tipp_data = [$spiel_id, $user_id_value];
+                        $tippgenau->initGenauTipp($init_tipp_data);
+                        $tippgenau_data = $tippgenau->getTippGenauAll();
+                        $tipp_val = $tippgenau_data['tordiff'];
+                        $tipp_datum = $tippgenau_data['datum'];
+                    ?>
+                        <tr>
+                            <td><?php echo $spiel_name; ?> </td>
+                            <td><?php echo $tipp_val; ?></td>
+                            <td><?php echo $tipp_datum; ?></td>
+                        </tr>
+                    <?php
+                    } ?>
+                </table>
+                <?php if ($user_id_key < $users_dispo - 1) {
+                ?>
+                    <div>
+                        <hr>
+                    </div>
+            <?php
+                }
+            }
+            ?>
+        </div>
+        <div id="hr">
+            <hr>
         </div>
     </div>
-    <hr>
     <div id="footer">&copy; 2024 Tippspiel</div>
 </body>
 

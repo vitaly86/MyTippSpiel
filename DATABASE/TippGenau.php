@@ -10,6 +10,7 @@ class TippGenau
     private $tipp_score = [];
     private $tipp_datum = [];
     private $tipptordiff;
+    private $tippdatum;
 
 
     public function __construct($db_conn)
@@ -36,12 +37,13 @@ class TippGenau
     public function initGenauTipp($data)
     {
         try {
-            $sql = "SELECT tipptordiff FROM " . $this->table_name . " WHERE stippid=? AND utippid=?";
+            $sql = "SELECT tipptordiff, tippdatum FROM " . $this->table_name . " WHERE stippid=? AND utippid=?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($data);
             if ($stmt->rowCount() == 1) {
                 $tipp = $stmt->fetch();
                 $this->tipptordiff = $tipp['tipptordiff'];
+                $this->tippdatum = $tipp['tippdatum'];
                 return 1;
             } else {
                 return 0;
@@ -93,8 +95,8 @@ class TippGenau
             $sql = "SELECT * FROM " . $this->table_name . " WHERE stippid=? AND utippid=?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$spiel_id, $user_id]);
-            echo "spiel id " . $spiel_id . "<br>";
-            echo "user id " . $user_id . "<br>";
+            // echo "spiel id " . $spiel_id . "<br>";
+            // echo "user id " . $user_id . "<br>";
             // echo $stmt->rowCount();
             if ($stmt->rowCount() > 0) {
                 return 0;
@@ -109,6 +111,15 @@ class TippGenau
     public function getTippGenau()
     {
         $data = $this->tipptordiff;
+        return $data;
+    }
+
+    public function getTippGenauAll()
+    {
+        $data = array(
+            'tordiff' => $this->tipptordiff,
+            'datum' => $this->tippdatum
+        );
         return $data;
     }
 }
