@@ -1,0 +1,157 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(190, 185, 185);
+}
+
+h1 {
+  text-transform: capitalize;
+  text-align: center;
+  font-size: 2.5rem;
+}
+
+#header {
+  height: 3rem;
+  background-color: black;
+}
+
+.container1 {
+  height: 7rem;
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.container1 a {
+  text-decoration: none;
+  text-transform: capitalize;
+  background-color: rgb(92, 90, 90);
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.container1 a:hover {
+  background-color: rgb(159, 155, 155);
+}
+
+#content {
+  background-color: rgb(159, 155, 155);
+}
+
+.container2 {
+  background-color: rgb(159, 155, 155);
+  width: 65%;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.container2 h1 {
+  text-align: left;
+  font-size: 2rem;
+  color: rgb(92, 90, 90);
+  font-weight: 100;
+  letter-spacing: 2px;
+}
+
+.container2 .contents_spiel {
+  margin: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1.15rem;
+  color: rgb(92, 90, 90);
+}
+
+.container2 .contents_spiel .spiel_data {
+  padding: 0.5rem;
+}
+
+.container2 .contents_spiel .spiele {
+  color: rgb(33, 33, 122);
+}
+
+.container2 .contents_spiel .closed {
+  color: rgb(184, 31, 31);
+}
+
+#enquire {
+  font-size: 1.15rem;
+  padding: 1rem;
+  color: rgb(92, 90, 90);
+}
+
+.container2 .c2-items .chose {
+  margin: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.container2 .c2-items .chose a {
+  text-decoration: none;
+  text-transform: capitalize;
+  background-color: rgb(92, 90, 90);
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+#table {
+  border: none !important;
+}
+
+#table,
+.id,
+.event {
+  border: 1px solid black;
+  width: 65%;
+  margin: auto;
+  padding-bottom: 15px;
+  font-size: 1.5rem;
+  color: white;
+}
+
+th {
+  background-color: rgb(92, 90, 90);
+  padding: 10px;
+}
+
+#limit {
+  width: 100%;
+}
+
+.id {
+  width: 25%;
+}
+
+.enroll {
+  text-decoration: none;
+  background-color: rgb(92, 90, 90);
+  color: white;
+  padding: 10px;
+  font-size: 1.25rem !important;
+}
+
+.enroll:hover {
+  background-color: rgb(118, 117, 117);
+}
+
+#footer {
+  width: 60%;
+  margin: auto;
+  padding: 1rem;
+  color: rgb(92, 90, 90);
+}

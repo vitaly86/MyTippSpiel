@@ -1,0 +1,101 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(190, 185, 185);
+}
+
+#header {
+  height: 3rem;
+  background-color: black;
+}
+
+.entry {
+  height: 7rem;
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.entry a {
+  text-decoration: none;
+  text-transform: capitalize;
+  background-color: rgb(92, 90, 90);
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.entry a:hover {
+  background-color: rgb(159, 155, 155);
+}
+
+h1 {
+  text-transform: capitalize;
+  text-align: center;
+  font-size: 3rem;
+}
+.container {
+  width: 60%;
+  margin: auto;
+  margin-top: 5rem;
+}
+
+.container .items {
+  width: 60%;
+  display: grid;
+  grid-template-columns: 0.5fr 1.3fr;
+  grid-template-rows: repeat(3, 1.2rem);
+  gap: 0 2rem;
+  color: rgb(84, 83, 83);
+  font-size: 1.2rem;
+  font-weight: bolder;
+}
+
+.container .error {
+  margin: 0 0 3px 0;
+  padding: 10px;
+  color: red;
+}
+
+.container .success {
+  margin: 0 0 3px 0;
+  padding: 10px;
+  color: green;
+}
+
+.container .items .spiel-einfuegen {
+  height: 2.2rem;
+  border: 1px solid white;
+  background-color: white;
+  outline-color: rgb(118, 117, 117);
+}
+
+.container #add_spiel {
+  background-color: rgb(92, 90, 90);
+  margin: 2rem 0 2rem 0;
+  padding: 15px 25px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+
+.container #add_spiel:hover {
+  background-color: rgb(118, 117, 117);
+}
+
+#footer {
+  width: 60%;
+  margin: auto;
+  padding-top: 2rem;
+  color: rgb(92, 90, 90);
+}

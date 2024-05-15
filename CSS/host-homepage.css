@@ -1,0 +1,192 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(190, 185, 185);
+}
+
+h1 {
+  text-transform: capitalize;
+  text-align: center;
+  font-size: 3rem;
+}
+
+#header {
+  height: 3rem;
+  background-color: black;
+}
+
+.container1 {
+  height: 7rem;
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.container1 a {
+  text-decoration: none;
+  text-transform: capitalize;
+  background-color: rgb(92, 90, 90);
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.container1 a:hover {
+  background-color: rgb(159, 155, 155);
+}
+
+#content {
+  background-color: rgb(159, 155, 155);
+}
+
+.container2 {
+  background-color: rgb(159, 155, 155);
+  width: 65%;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.container2 h1 {
+  text-align: left;
+  font-size: 2.5rem;
+  color: rgb(92, 90, 90);
+  font-weight: 100;
+  letter-spacing: 2px;
+}
+
+.container2 .c2-items {
+  width: 50%;
+}
+
+.container2 .list_events {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.container2 .list_events li {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: rgb(92, 90, 90);
+}
+
+.container2 .list_events li a {
+  color: rgb(92, 90, 90);
+}
+
+.container2 .list_events li a:hover {
+  color: rgb(121, 119, 119);
+}
+
+.container2 .c2-items img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+#hr {
+  width: 65% !important;
+  margin-top: 1rem;
+}
+
+.host-container {
+  background-color: rgb(159, 155, 155);
+  width: 65%;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.host-container .host-events {
+  text-align: center;
+  font-size: 2.5rem;
+  color: rgb(92, 90, 90);
+  font-weight: 100;
+  letter-spacing: 2px;
+}
+
+table {
+  width: 100%;
+}
+
+tr,
+td {
+  border: 1px solid black;
+  margin: auto;
+  padding: 10px;
+  font-size: 1.5rem;
+  color: white;
+}
+
+th {
+  background-color: rgb(92, 90, 90);
+  padding: 10px;
+}
+
+td {
+  font-size: 1.25rem !important;
+}
+
+.container3 {
+  background-color: rgb(159, 155, 155);
+  width: 65%;
+  margin: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.container3 h1 {
+  text-align: left;
+  font-size: 2.5rem;
+  color: rgb(92, 90, 90);
+  font-weight: 100;
+  letter-spacing: 2px;
+}
+
+.container3 .c3-items {
+  width: 50%;
+}
+
+.container3 .list_events {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.container3 .list_events li {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: rgb(92, 90, 90);
+}
+
+.container3 .list_events li a {
+  color: rgb(92, 90, 90);
+}
+
+.container3 .list_events li a:hover {
+  color: rgb(121, 119, 119);
+}
+
+#footer {
+  width: 60%;
+  margin: auto;
+  padding: 1rem;
+  color: rgb(92, 90, 90);
+}
