@@ -14,15 +14,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
     $event_ids = $user->get_UserEvent()->getEventId();
     $event->initEventUser($event_ids);
     $events_data = $event->getUserEvents();
-    $current_year = '2024';
-    $current_month = '01';
-    $current_day = '25';
-    $current_date = "$current_year-$current_month-$current_day";
-    $spiele_tipp_data = array(
-        'year' => $current_year,
-        'month' => $current_month,
-        'day' => $current_day
-    );
 ?>
 
     <!DOCTYPE html>
@@ -44,7 +35,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
         <div id="header"></div>
         <div class="container1">
             <a href="PHP/register-host.php">hosts</a>
-            <a href="../Actions/abmelden-host.php">log out</a>
+            <a href="../Actions/abmelden.php">log out</a>
         </div>
         <h1>Welcome <?php echo $user_data['user_name']; ?></h1>
         <h1>Deine aktuelle Events</h1>
@@ -57,8 +48,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                         <hr>
                         <?php
                         $curr_event_id = $events_data['event_id'][$ev];
-                        $current_data = [$curr_event_id, $current_date];
-                        $tipp_spiele = $spiele->initSpieleExists($current_data);
+                        $tipp_spiele = $spiele->initSpieleExists($curr_event_id);
                         if ($tipp_spiele) {
                             $spiele->initSpieleEvent($curr_event_id);
                             $spiele_data = $spiele->getSpielData();
@@ -70,9 +60,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                             <div class="contents_spiel">
                                 <div>
                                     <?php
-                                    for ($i = 0; $i < count($spiele_data['spiel_name']); $i++) {
-                                        $spiele->initSpieleLimit($spiele_data['spiel_datum'][$i]);
-                                        $tipp_ok = $spiele->getTippsAvailability($spiele_tipp_data);
+                                    for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
+                                        $spiel_datum = $spiele_data['spiel_datum'][$i];
+                                        $tipp_ok = $spiele->getTippsAvailability($spiel_datum);
                                         if ($tipp_ok) {
                                     ?>
                                             <div class="spiel_data">Tippen:
@@ -89,9 +79,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                                 </div>
                                 <div class="spiel_data">
                                     <?php
-                                    for ($i = 0; $i < count($spiele_data['spiel_datum']); $i++) {
-                                        $spiele->initSpieleLimit($spiele_data['spiel_datum'][$i]);
-                                        $tipp_ok = $spiele->getTippsAvailability($spiele_tipp_data);
+                                    for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
+                                        $spiel_datum = $spiele_data['spiel_datum'][$i];
+                                        $tipp_ok = $spiele->getTippsAvailability($spiel_datum);
                                         if ($tipp_ok) {
                                     ?>
                                             <div class="spiel_data">Beginnt am:
@@ -125,27 +115,50 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
             <table id='table'>
                 <tr>
                     <th>Id</th>
+                    <th>Begin</th>
+                    <th>Ende</th>
                     <th id='limit'>Event</th>
                 </tr>
                 <?php
                 $user1 = new User($conn);
                 $event1 = new Event($conn);
+                $spiel1 = new Spiel($conn);
                 $user_id = $_SESSION['user_id'];
                 $data_event_ids = $event_ids['user_event'];
-                $user1->get_UserEvent()->nullUserEvent($data_event_ids);
-                $null_event_ids = $user1->get_UserEvent()->getEventId()['user_event'];
-                $event1->nullEventUser($null_event_ids);
-                $null_events_data = $event1->getUserEvents();
-                for ($i = 0; $i < count($null_events_data['event_id']); $i++) {
-                    $null_evt_id = $null_events_data['event_id'][$i];
-                    $null_evt_name = $null_events_data['event_name'][$i];
+                $event1->find_null_UserEvents($data_event_ids);
+                $null_event_user_ids = $event1->get_null_UserEvents();
+
+                foreach ($null_event_user_ids as $null_event_id) {
+                    $spiel_exist = $spiel1->verifySpieleEvent($null_event_id);
+                    if ($spiel_exist) {
+                        $event1->init_null_EventsUser($null_event_id);
+                        $null_event_data = $event1->null_data_UserEvents();
+                        $curr_null_event_id = $null_event_data['event_id'];
+                        $curr_null_event_name = $null_event_data['event_name'];
+                        $spiel1->get_min_SpielDatum($curr_null_event_id);
+                        $spiel1->get_max_SpielDatum($curr_null_event_id);
+                        $event_begin = $spiel1->showSpielminDatum();
+                        $event_ended = $spiel1->showSpielmaxDatum();
+                        $get_momentum = $spiel1->get_zietraum_Event($event_begin, $event_ended);
                 ?>
-                    <tr>
-                        <td class='id'><?php echo $null_evt_id; ?></td>
-                        <td class='event'><?php echo $null_evt_name; ?></td>
-                        <td class="chose"><a href="new_event_user.php?event_user_id=<?php echo $null_evt_id; ?>" class="enroll">Enroll</a></td>
-                    </tr>
+                        <tr>
+                            <td class='id'><?php echo $curr_null_event_id; ?></td>
+                            <td class='begin'><?php echo $event_begin; ?></td>
+                            <td class='end'><?php echo $event_ended; ?></td>
+                            <td class='event'><?php echo $curr_null_event_name; ?></td>
+                            <?php if ($get_momentum == "enroll") { ?>
+                                <td class="chose"><a href="new_event_user.php?event_user_id=<?php echo $null_event_id; ?>" class="option">Enroll</a></td>
+                            <?php
+                            } else if ($get_momentum == "innerhalb") { ?>
+                                <td class="chose"><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>" class="option">Innerhalb</a></td>
+                            <?php
+                            } else if ($get_momentum == "ergebnisse") { ?>
+                                <td class="chose"><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>" class="option">Ergebnisse</a></td>
+                            <?php } ?>
+                        </tr>
                 <?php }
+                }
+
                 ?>
 
             </table>

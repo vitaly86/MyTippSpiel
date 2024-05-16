@@ -149,6 +149,7 @@ h1 {
 
 #table,
 .id,
+.datum,
 .event {
   border: 1px solid black;
   width: 65%;
@@ -163,15 +164,16 @@ th {
   padding: 10px;
 }
 
-#limit {
-  width: 100%;
-}
-
 .id {
-  width: 25%;
+  width: 20% !important;
 }
 
-.enroll {
+.datum {
+  width: 40% !important;
+}
+
+.enroll,
+.abgelaufen {
   text-decoration: none;
   background-color: rgb(92, 90, 90);
   color: white;

@@ -55,20 +55,20 @@ class UserEvent
     // }
 
 
-    public function nullUserEvent($data)
-    {
-        try {
-            $sql = "SELECT DISTINCT eventid FROM " . $this->table_name . " WHERE eventid NOT IN (" . implode(", ", $data) . ")";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($events as $event) {
-                $this->event_id[] = $event['eventid'];
-            }
-        } catch (PDOException $e) {
-            return 0;
-        }
-    }
+    // public function nullUserEvent($data)
+    // {
+    //     try {
+    //         $sql = "SELECT DISTINCT eventid FROM " . $this->table_name . " WHERE eventid NOT IN (" . implode(", ", $data) . ")";
+    //         $stmt = $this->conn->prepare($sql);
+    //         $stmt->execute();
+    //         $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //         foreach ($events as $event) {
+    //             $this->event_id[] = $event['eventid'];
+    //         }
+    //     } catch (PDOException $e) {
+    //         return 0;
+    //     }
+    // }
 
     public function initEventUsers($event_id)
     {

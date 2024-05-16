@@ -10,12 +10,11 @@ class Spiel
 
     private $spiel_name;
     private $spiel_datum;
+    private $min_spiel_datum;
+    private $max_spiel_datum;
     private $r_teamA;
     private $r_teamB;
-    private $year;
-    private $month;
-    private $day;
-
+    private $current_date = "2023-05-12 23:30:01";
 
     public function __construct($db_conn)
     {
@@ -106,33 +105,13 @@ class Spiel
         }
     }
 
-    public function initSpieleLimit($datum) // $spiele_data['spiel_datum']
-    {
-        $this->year = substr($datum, 0, 4);
-        $this->month = substr($datum, 5, 2);
-        $this->day = substr($datum, 8, 2);
-        return 1;
-    }
-
     public function getTippsAvailability($limit_datum)
     {
-        $spiel_datum = array(
-            'year' => $this->year,
-            'month' => $this->month,
-            'day' => $this->day
-        );
-
-        if (($spiel_datum['year'] == $limit_datum['year']) && ($spiel_datum['month'] == $limit_datum['month']) && ($spiel_datum['day'] < $limit_datum['day'])) {
+        if ($limit_datum < $this->current_date) {
             return false;
-        } else if (($spiel_datum['year'] == $limit_datum['year']) && ($spiel_datum['month'] < $limit_datum['month'])) {
-            return false;
-        } else if (($spiel_datum['year'] < $limit_datum['year'])) {
-            return false;
-        } else {
-            return true;
         }
+        return true;
     }
-
 
 
     public function initSpieleEvent($event_id)
@@ -181,12 +160,83 @@ class Spiel
         }
     }
 
-    public function initSpieleExists($data)
+    public function verifySpieleEvent($event_id)
+    {
+        try {
+            $sql = "SELECT * FROM " . $this->table_name . " WHERE espid=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$event_id]);
+            if ($stmt->rowCount() > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public function get_min_SpielDatum($event_id)
+    {
+        try {
+            $sql = "SELECT DISTINCT MIN(spieldatum) AS min_datum FROM " . $this->table_name . " WHERE espid=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$event_id]);
+            if ($stmt->rowCount() == 1) {
+                $this->min_spiel_datum = $stmt->fetch()['min_datum'];
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public function get_max_SpielDatum($event_id)
+    {
+        try {
+            $sql = "SELECT DISTINCT MAX(spieldatum) AS max_datum FROM " . $this->table_name . " WHERE espid=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$event_id]);
+            if ($stmt->rowCount() == 1) {
+                $this->max_spiel_datum = $stmt->fetch()['max_datum'];
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public function get_debut_Event($max_enroll_datum)
+    {
+        if ($max_enroll_datum > $this->current_date) {
+            return true;
+        } else return false;
+    }
+
+    public function get_zietraum_Event(
+        $min_datum,
+        $max_datum
+    ) {
+        if ($min_datum > $this->current_date) {
+            return 'enroll';
+        } else if (($min_datum < $this->current_date) && ($max_datum > $this->current_date)) {
+            return "innerhalb";
+        } else if (($max_datum < $this->current_date)) {
+            return "ergebnisse";
+        }
+    }
+
+
+    public function initSpieleExists($event_id)
     {
         try {
             $sql = "SELECT COUNT(*) AS 'user_spiele' FROM " . $this->table_name . " WHERE espid=? AND spieldatum>?";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute($data);
+            $stmt->execute([$event_id, $this->current_date]);
             if ($stmt->rowCount() == 1) {
                 $spiele = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 if ($spiele[0]['user_spiele'] > 0) {
@@ -265,13 +315,13 @@ class Spiel
         return $data;
     }
 
-    public function getSpielLimitData()
+    public function showSpielminDatum()
     {
-        $data = array(
-            'year' => $this->year,
-            'month' => $this->month,
-            'day' => $this->day
-        );
-        return $data;
+        return $this->min_spiel_datum;
+    }
+
+    public function showSpielmaxDatum()
+    {
+        return $this->max_spiel_datum;
     }
 }

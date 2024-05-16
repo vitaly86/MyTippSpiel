@@ -3,7 +3,7 @@
 $db = new Database();
 $conn = $db->connect();
 $event = new Event($conn);
-$event->startPageEvents();
+$spiel = new Spiel($conn);
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -39,13 +39,13 @@ $event->startPageEvents();
                 <a href="#">sign up</a>
                 <div id="user-form-container">
                     <?php
-                    if (isset($_GET['error'])) { ?>
+                    if (isset($_GET['error']) && isset($_GET['user'])) { ?>
                         <p class="error">
                             <?php echo htmlspecialchars($_GET['error']); ?>
                         </p>
                     <?php  } ?>
                     <?php
-                    if (isset($_GET['success'])) { ?>
+                    if (isset($_GET['success']) && isset($_GET['user'])) { ?>
                         <p class="success">
                             <?php echo htmlspecialchars($_GET['success']); ?>
                         </p>
@@ -61,7 +61,42 @@ $event->startPageEvents();
                 <img src="Images/front-image.jpg" alt="cover-foto">
             </div>
         </div>
-        <?php $event_data = $event->getEventsStart(); ?>
+        <table id="table">
+            <tr>
+                <th>Id</th>
+                <th>Anfang Datum</th>
+                <th id='limit'>Event</th>
+            </tr>
+            <?php
+            $event->startPageEvents();
+            $start_events = $event->getEventsStart();
+            for ($i = 0; $i < count($start_events['event_id']); $i++) {
+                $user_event_id = $start_events['event_id'][$i];
+                $user_event_name = $start_events['event_name'][$i];
+                $spiel_exist = $spiel->verifySpieleEvent($user_event_id);
+                if ($spiel_exist) {
+                    $spiel->get_min_SpielDatum($user_event_id);
+                    $max_enroll_datum = $spiel->showSpielminDatum();
+                    $event_ok = $spiel->get_debut_Event($max_enroll_datum);
+                    if ($event_ok) {
+            ?>
+                        <tr>
+                            <td class='id'><?php echo $user_event_id; ?></td>
+                            <td class='datum'><?php echo $max_enroll_datum; ?></td>
+                            <td class='event'><?php echo $user_event_name; ?></td>
+                            <td class='chose'><a href="PHP/register-user.php?user_event_id=<?php echo $user_event_id; ?>" class='enroll'>Enroll</a></td>
+                        </tr>
+                    <?php  } else { ?>
+                        <tr>
+                            <td class='id'><?php echo $user_event_id; ?></td>
+                            <td class='datum'><?php echo $max_enroll_datum; ?></td>
+                            <td class='event'><?php echo $user_event_name; ?></td>
+                            <td class='chose'><a href="#" class='abgelaufen'>Abgelaufen</a></td>
+                        </tr>
+                    <?php } ?>
+            <?php }
+            } ?>
+        </table>
         <div id="sep"></div>
     </div>
     <div id="footer">&copy; 2024 Tippspiel</div>

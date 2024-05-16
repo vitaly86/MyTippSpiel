@@ -8,6 +8,8 @@ class Event
     private $e_name = [];
     private $e_host;
 
+    private $null_e_id = [];
+
     public function __construct($db_conn)
     {
         $this->conn = $db_conn;
@@ -71,6 +73,21 @@ class Event
         }
     }
 
+    public function find_null_UserEvents($data)
+    {
+        try {
+            $sql = "SELECT eid FROM " . $this->table_name . " WHERE eid NOT IN (" . implode(", ", $data) . ")";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($events as $event) {
+                $this->null_e_id[] = $event['eid'];
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
     public function nullEventUser($events_id)
     {
         try {
@@ -92,7 +109,7 @@ class Event
         }
     }
 
-    public function initEventSpiele($events_id)
+    public function initEventSpiele($events_id)                                 // verification after
     {
         try {
             $sql = "SELECT * FROM " . $this->table_name . " WHERE eid=?";
@@ -103,6 +120,25 @@ class Event
                 $this->e_id = $event['eid'];
                 $this->e_name = $event['ename'];
                 $this->e_host = $event['heid'];
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public function init_null_EventsUser($events_id)
+    {
+        try {
+            $sql = "SELECT eid, ename FROM " . $this->table_name . " WHERE eid=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$events_id]);
+            if ($stmt->rowCount() == 1) {
+                $event = $stmt->fetch();
+                $this->e_id = $event['eid'];
+                $this->e_name = $event['ename'];
                 return 1;
             } else {
                 return 0;
@@ -168,6 +204,11 @@ class Event
         return $events;
     }
 
+    public function get_null_UserEvents()
+    {
+        return $this->null_e_id;
+    }
+
     public function getEventSpiele()
     {
         $events = array(
@@ -203,19 +244,20 @@ class Event
             'event_id' => $this->e_id,
             'event_name' => $this->e_name
         );
-        $table = "<table id='table'><tr><th>Id</th><th id='limit'>Event</th></tr>";
-        for ($i = 0; $i < count($events['event_id']); $i++) {
-            $host_events = $events['event_id'][$i];
-            $table .= "<tr><td class='id'>" . $events['event_id'][$i] . "</td>" .
-                "<td class='event'>" . $events['event_name'][$i] . "</td>" .
-                '<td class="chose"><a href=' . "PHP/register-user.php?event_user_id=$host_events" . " class='enroll'>Enroll</a></td></tr>";
-        }
-        $table .= "</table>";
-        echo $table;
+        return $events;
     }
 
 
     public function getUserEvents()
+    {
+        $data = array(
+            'event_id' => $this->e_id,
+            'event_name' => $this->e_name
+        );
+        return $data;
+    }
+
+    public function null_data_UserEvents()
     {
         $data = array(
             'event_id' => $this->e_id,

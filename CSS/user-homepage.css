@@ -119,11 +119,14 @@ h1 {
 
 #table,
 .id,
+.begin,
+.end,
 .event {
   border: 1px solid black;
+  text-align: center;
   width: 65%;
   margin: auto;
-  padding-bottom: 15px;
+  padding: 15px;
   font-size: 1.5rem;
   color: white;
 }
@@ -133,19 +136,21 @@ th {
   padding: 10px;
 }
 
-#limit {
-  width: 100%;
-}
-
 .id {
-  width: 25%;
+  width: 10% !important;
 }
 
-.enroll {
+.begin,
+.end,
+.event {
+  width: 30% !important;
+}
+
+.option {
   text-decoration: none;
   background-color: rgb(92, 90, 90);
   color: white;
-  padding: 10px;
+  padding: 15px;
   font-size: 1.25rem !important;
 }
 

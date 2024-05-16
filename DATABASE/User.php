@@ -97,7 +97,6 @@ class User
             $sql = "SELECT useremail FROM " . $this->table_name . " WHERE useremail=?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$user_email]);
-            echo $stmt->rowCount();
             if ($stmt->rowCount() > 0) {
                 return 0;
             } else {

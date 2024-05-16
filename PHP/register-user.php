@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "../config.php";
-$_SESSION['user_event'] = $_GET['event_user_id'];
+$_SESSION['user_event'] = $_GET['user_event_id'];
 ?>
 
 <!DOCTYPE html>
