@@ -12,6 +12,7 @@ class TippTendenz
     private $tipp_datum = [];
     private $tipp_teamA;
     private $tipp_teamB;
+    private $tippdatum;
 
 
     public function __construct($db_conn)
@@ -38,13 +39,14 @@ class TippTendenz
     public function initTendenzTipp($data)
     {
         try {
-            $sql = "SELECT tippAteam, tippBteam FROM " . $this->table_name . " WHERE stippid=? AND utippid=?";
+            $sql = "SELECT tippAteam, tippBteam, tippdatum FROM " . $this->table_name . " WHERE stippid=? AND utippid=?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($data);
             if ($stmt->rowCount() == 1) {
                 $tipp = $stmt->fetch();
                 $this->tipp_teamA = $tipp['tippAteam'];
                 $this->tipp_teamB = $tipp['tippBteam'];
+                $this->tippdatum = $tipp['tippdatum'];
                 return 1;
             } else {
                 return 0;
@@ -111,6 +113,16 @@ class TippTendenz
         $data = array(
             'tipp_teamA' => $this->tipp_teamA,
             'tipp_teamB' => $this->tipp_teamB
+        );
+        return $data;
+    }
+
+    public function getTippTendenzAll()
+    {
+        $data = array(
+            'tipp_teamA' => $this->tipp_teamA,
+            'tipp_teamB' => $this->tipp_teamB,
+            'datum' =>  $this->tippdatum
         );
         return $data;
     }

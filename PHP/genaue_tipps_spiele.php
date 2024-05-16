@@ -2,7 +2,7 @@
 session_start();
 require_once "../config.php";
 
-if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
+if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
     $db = new Database();
     $conn = $db->connect();
 
@@ -11,7 +11,6 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
     $spiel = new Spiel($conn);
     $tippgenau = new TippGenau($conn);
     $id_event = $_SESSION['event_id'];
-    $id_spiel = $_GET['spiel_id'];
     $user_event->initEventUsers($id_event);
     $user_event_ids = $user_event->getUsersId();
     $users_dispo = count($user_event_ids['event_users']);
@@ -49,7 +48,7 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
     <div id="header"></div>
     <div class="entry">
         <a href="ergebnisse_event.php?event_id=<?php echo $id_event; ?>">Event Seite</a>
-        <a href="tendenz_tipps_spiele.php?event_id=<?php echo $id_event; ?>&spiel_id=<?php echo $id_spiel; ?>">Tendenz Tipps</a>
+        <a href="tendenz_tipps_spiele.php?event_id=<?php echo $id_event; ?>">Tendenz Tipps</a>
     </div>
     <h1>Genaue Tipps</h1>
     <hr>
