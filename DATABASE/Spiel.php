@@ -7,6 +7,9 @@ class Spiel
     private $s_id = [];
     private $s_name = [];
     private $s_datum = [];
+
+    private $spiel_name;
+    private $spiel_datum;
     private $r_teamA;
     private $r_teamB;
     private $year;
@@ -26,6 +29,25 @@ class Spiel
             $sql = "SELECT * FROM " . $this->table_name;
             $res = $this->conn->query($sql);
             if ($res->rowCount() > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public function init_one_Spiel($spiel_id)
+    {
+        try {
+            $sql = "SELECT spielname, spieldatum FROM " . $this->table_name . " WHERE spid=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$spiel_id]);
+            if ($stmt->rowCount() == 1) {
+                $spiel = $stmt->fetch();
+                $this->spiel_name = $spiel['spielname'];
+                $this->spiel_datum = $spiel['spieldatum'];
                 return 1;
             } else {
                 return 0;
@@ -58,6 +80,7 @@ class Spiel
             return 0;
         }
     }
+
 
     public function initSpieleAvailability($events_id)
     {
@@ -203,6 +226,15 @@ class Spiel
         } catch (PDOException $e) {
             return 0;
         }
+    }
+
+    public function get_one_SpielData()
+    {
+        $data = array(
+            'spiel_name' => $this->spiel_name,
+            'spiel_datum' => $this->spiel_datum
+        );
+        return $data;
     }
 
     public function getSpielData()

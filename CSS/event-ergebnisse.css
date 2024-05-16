@@ -68,10 +68,24 @@ h1 {
   letter-spacing: 2px;
 }
 
-.container .event_info #users-tipps {
-  padding: 2rem 0;
+.container .event_info .spiele {
+  width: 60%;
+  padding: 2rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 1.25rem;
 }
 
+.container .event_info .spiele a {
+  color: rgb(92, 90, 90);
+}
+
+.container .event_info .spiele a:hover {
+  color: rgb(136, 132, 132);
+}
 #footer {
   width: 60%;
   margin: auto;
