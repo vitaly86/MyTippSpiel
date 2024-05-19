@@ -34,6 +34,7 @@ if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
     <div id="header"></div>
     <div class="entry">
         <a href="homepage-user.php">Startseite</a>
+        <a href="ergebnisse_event.php?event_id=<?php echo $event_id; ?>&zeitraum=innerhalb">Öffentlich</a>
     </div>
     <h1><?php echo $event_name; ?> </h1>
     <hr>

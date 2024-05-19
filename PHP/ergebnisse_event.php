@@ -8,16 +8,19 @@ if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
     $host = new Host($conn);
     $event = new Event($conn);
     $spiel = new Spiel($conn);
+    $spiel_ex = new Spiel($conn);
     $_SESSION['event_id'] = $_GET['event_id'];
     $id_event = $_SESSION['event_id'];
     $host->initHost($id_event);
     $event->initEventSpiele($id_event);
     $spiel->initSpieleEvent($id_event);
+    $spiel_ex->initSpieleExpired($id_event);
     $event_data = $event->getEventSpiele();
     $id_host = $event_data['event_host'];
     $host->initHost($id_host);
     $host_data = $host->getHost();
     $spiele_data = $spiel->getSpielData();
+    $spiele_data_ex = $spiel_ex->getSpielData();
 }
 ?>
 
@@ -36,28 +39,38 @@ if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
     <div id="header"></div>
     <div class="entry">
         <a href="homepage-user.php?event_id=<?php echo $id_event; ?>">Startseite</a>
-        <a href="rangliste_users.php?event_id=<?php echo $id_event; ?>">Rangliste</a>
+        <?php if (isset($_GET['zeitraum']) && $_GET['zeitraum'] == 'innerhalb') {
+            echo "";
+        } else { ?>
+            <a href="rangliste_users.php?event_id=<?php echo $id_event; ?>">Rangliste</a>
+        <?php } ?>
     </div>
-    <h1>Event Infos</h1>
+    <h1><?php echo $event_data['event_name']; ?></h1>
     <hr>
     <div class="container">
         <div class="event_info">
-            <div class="details"><?php echo $host_data['host_fullname']; ?></div>
-            <div>
-                <hr>
-            </div>
-            <div class="details"><?php echo $event_data['event_name']; ?></div>
+            <div class="details">Host: <?php echo $host_data['host_fullname']; ?></div>
             <div>
                 <hr>
             </div>
             <div class="details">Abgegebene Tipps:</div>
             <div class="spiele">
-                <?php for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
-                    $spiel_id = $spiele_data['spiel_id'][$i];
-                    $spiel_name = $spiele_data['spiel_name'][$i];
+                <?php
+                if (isset($_GET['zeitraum']) && $_GET['zeitraum'] == 'innerhalb') {
+                    for ($i = 0; $i < count($spiele_data_ex['spiel_id']); $i++) {
+                        $spiel_id = $spiele_data_ex['spiel_id'][$i];
+                        $spiel_name = $spiele_data_ex['spiel_name'][$i];
                 ?>
-                    <a href="genaue_tipps_spiele.php?event_id=<?php echo $id_event; ?>&spiel_id=<?php echo $spiel_id; ?>"><?php echo $spiel_name; ?> </a>
-                <?php } ?>
+                        <a href="genaue_tipps_spiele.php?event_id=<?php echo $id_event; ?>&spiel_id=<?php echo $spiel_id; ?>&zeitraum=innerhalb"><?php echo $spiel_name; ?> </a>
+                    <?php }
+                } else {
+                    for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
+                        $spiel_id = $spiele_data['spiel_id'][$i];
+                        $spiel_name = $spiele_data['spiel_name'][$i];
+                    ?>
+                        <a href="genaue_tipps_spiele.php?event_id=<?php echo $id_event; ?>&spiel_id=<?php echo $spiel_id; ?>"><?php echo $spiel_name; ?> </a>
+                <?php }
+                } ?>
             </div>
         </div>
     </div>

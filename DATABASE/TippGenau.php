@@ -95,9 +95,6 @@ class TippGenau
             $sql = "SELECT * FROM " . $this->table_name . " WHERE stippid=? AND utippid=?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$spiel_id, $user_id]);
-            // echo "spiel id " . $spiel_id . "<br>";
-            // echo "user id " . $user_id . "<br>";
-            // echo $stmt->rowCount();
             if ($stmt->rowCount() > 0) {
                 return 0;
             } else {
@@ -120,6 +117,8 @@ class TippGenau
             'tordiff' => $this->tipptordiff,
             'datum' => $this->tippdatum
         );
+        $this->tipptordiff = "";
+        $this->tippdatum = "";
         return $data;
     }
 }

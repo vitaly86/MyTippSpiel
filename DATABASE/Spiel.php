@@ -14,7 +14,7 @@ class Spiel
     private $max_spiel_datum;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2023-01-05 23:30:01";
+    private $current_date = "2023-01-25 16:30:01";
 
     public function __construct($db_conn)
     {
@@ -81,24 +81,22 @@ class Spiel
     }
 
 
-    public function initSpieleAvailability($events_id)
+    public function initSpieleExpired($event_id)
     {
         try {
-            $sql = "SELECT * FROM " . $this->table_name . " WHERE espid=? AND YEAR(spieldatum)='2023' AND MONTH(spieldatum)>='2'";
+            $sql = "SELECT * FROM " . $this->table_name . " WHERE espid=? AND spieldatum<?";
             $stmt = $this->conn->prepare($sql);
-            foreach ($events_id['user_event'] as $event_id) {
-                $stmt->execute([$event_id]);
-                if ($stmt->rowCount() >= 1) {
-                    $spiele = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($spiele as $spiel) {
-                        array_push($this->s_id, $spiel['spid']);
-                        array_push($this->s_name, $spiel['spielname']);
-                        array_push($this->s_datum, $spiel['spieldatum']);
-                    }
-                    return 1;
-                } else {
-                    return 0;
+            $stmt->execute([$event_id, $this->current_date]);
+            if ($stmt->rowCount() >= 1) {
+                $spiele = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($spiele as $spiel) {
+                    array_push($this->s_id, $spiel['spid']);
+                    array_push($this->s_name, $spiel['spielname']);
+                    array_push($this->s_datum, $spiel['spieldatum']);
                 }
+                return 1;
+            } else {
+                return 0;
             }
         } catch (PDOException $e) {
             return 0;

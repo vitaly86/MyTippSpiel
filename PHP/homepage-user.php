@@ -95,7 +95,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                                 </div>
                             </div>
                             <hr>
-                            <h1 class="tipps"><a href="tipps_user_event.php?event_id=<?php echo $curr_event_id; ?>">Current Tipps</a></h1>
+                            <h1 class="tipps"><a href="tipps_user_event.php?event_id=<?php echo $curr_event_id; ?>">Deine Current Tipps</a></h1>
                             <hr>
                         <?php } else { ?>
                             <h1 class="status">Status: Abgelaufen</h1>
@@ -117,7 +117,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
             <table id='table'>
                 <tr>
                     <th>Id</th>
-                    <th>Begin</th>
+                    <th>Beginn</th>
                     <th>Ende</th>
                     <th id='limit'>Event</th>
                 </tr>
@@ -152,7 +152,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                                 <td class="chose"><a href="new_event_user.php?event_user_id=<?php echo $null_event_id; ?>" class="option">Enroll</a></td>
                             <?php
                             } else if ($get_momentum == "innerhalb") { ?>
-                                <td class="chose"><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>" class="option">Innerhalb</a></td>
+                                <td class="chose"><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>&zeitraum=innerhalb" class="option">Innerhalb</a></td>
                             <?php
                             } else if ($get_momentum == "ergebnisse") { ?>
                                 <td class="chose"><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>" class="option">Ergebnisse</a></td>

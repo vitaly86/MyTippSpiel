@@ -124,6 +124,9 @@ class TippTendenz
             'tipp_teamB' => $this->tipp_teamB,
             'datum' =>  $this->tippdatum
         );
+        $this->tipp_teamA = "";
+        $this->tipp_teamB = "";
+        $this->tippdatum = "";
         return $data;
     }
 }

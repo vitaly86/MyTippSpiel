@@ -33,8 +33,13 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
     <h1>Willkommen zum Sport-Event</h1>
     <div id="header"></div>
     <div class="entry">
-        <a href="ergebnisse_event.php?event_id=<?php echo $id_event; ?>">Event Seite</a>
-        <a href="tendenz_tipps_spiele.php?event_id=<?php echo $id_event; ?>&spiel_id=<?php echo $id_spiel; ?>">Tendenz Tipps</a>
+        <?php if (isset($_GET['zeitraum']) && $_GET['zeitraum'] == 'innerhalb') { ?>
+            <a href="ergebnisse_event.php?event_id=<?php echo $id_event; ?>&zeitraum=innerhalb">Event Seite</a>
+            <a href="tendenz_tipps_spiele.php?event_id=<?php echo $id_event; ?>&spiel_id=<?php echo $id_spiel; ?>&zeitraum=innerhalb">Tendenz Tipps</a>
+        <?php } else { ?>
+            <a href="ergebnisse_event.php?event_id=<?php echo $id_event; ?>">Event Seite</a>
+            <a href="tendenz_tipps_spiele.php?event_id=<?php echo $id_event; ?>&spiel_id=<?php echo $id_spiel; ?>">Tendenz Tipps</a>
+        <?php } ?>
     </div>
     <h1><?php echo $spiel_name; ?> </h1>
     <h2>Genaue Tipps</h2>
