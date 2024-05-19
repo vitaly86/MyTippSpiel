@@ -52,6 +52,30 @@ class Event
         }
     }
 
+    /*******************************************Tomorow*************************************************************** */
+    public function initEventHost($host_id, $data)
+    {
+        try {
+            $sql = "SELECT eid, ename FROM " . $this->table_name . " WHERE heid=? AND eid IN (" . implode(", ", $data) . ")";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$host_id]);
+            if (count($data) >= 1) {
+                $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($events as $event) {
+                    $this->e_id[] = $event['eid'];
+                    $this->e_name[] = $event['ename'];
+                }
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    /********************************************************************************************************************** */
+
     public function initEventUser($events_id)
     {
         try {
@@ -196,6 +220,15 @@ class Event
     // }
 
     public function getEventsHost()
+    {
+        $events = array(
+            'event_id' => $this->e_id,
+            'event_name' => $this->e_name
+        );
+        return $events;
+    }
+
+    public function getHostEvents()
     {
         $events = array(
             'event_id' => $this->e_id,

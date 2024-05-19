@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_email = UserValidation::clean($_POST['uemail']);
     $user_pass = UserValidation::clean($_POST['upass']);
 
-    $data = "uname=" . $user_name . "&hemail=" . $user_email . "&event_user_id=" . $_SESSION['user_event'];
+    $data = "uname=" . $user_name . "&hemail=" . $user_email . "&user_event_id=" . $_SESSION['user_event'];
 
     if (!UserValidation::userName($user_name)) {
         $em = "Your Name is Invalid";

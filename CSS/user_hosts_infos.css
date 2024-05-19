@@ -1,0 +1,193 @@
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(190, 185, 185);
+}
+
+h1 {
+  text-transform: capitalize;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.container {
+  height: 7rem;
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+#header {
+  height: 3rem;
+  background-color: black;
+}
+
+.container a {
+  text-decoration: none;
+  text-transform: capitalize;
+  background-color: rgb(92, 90, 90);
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.container a:hover {
+  background-color: rgb(159, 155, 155);
+}
+
+#content {
+  background-color: rgb(159, 155, 155);
+}
+
+.host-container {
+  width: 80%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+.host-menu {
+  grid-column: 1;
+}
+
+.host-container .host-menu .config {
+  width: inherit;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.host-container .host-menu .config ul {
+  list-style-type: none;
+  width: 50%;
+  margin: 0;
+  overflow: auto;
+}
+
+.host-container .host-menu .config ul li {
+  background-color: rgb(92, 90, 90);
+  margin: 5px;
+  padding: 7px;
+  width: calc(100% - 16px);
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.host-container .host-menu .config ul li:hover {
+  background-color: rgb(121, 119, 119);
+}
+
+.host-container .host-menu .config ul li a {
+  font-size: 1.25rem;
+  color: white;
+  text-decoration: none;
+  width: 100%;
+  display: inline-block;
+}
+
+.host-info {
+  grid-column: 2 / span 3;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.host-info h1 {
+  text-align: left;
+  font-size: 2.5rem;
+  color: rgb(92, 90, 90);
+  font-weight: 100;
+  letter-spacing: 2px;
+}
+
+.host-info .h-items {
+  width: 50%;
+}
+
+.host-info .regeln {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.host-info .regeln li {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: rgb(92, 90, 90);
+}
+
+.host-info .h-items img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.host-events-info {
+  grid-column: 2 / span 3;
+  background-color: rgb(159, 155, 155);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.host-events-info .host-events {
+  text-align: center;
+  font-size: 2.5rem;
+  color: rgb(92, 90, 90);
+  font-weight: 100;
+  letter-spacing: 2px;
+}
+
+table {
+  width: 100%;
+}
+
+tr,
+td {
+  border: 1px solid black;
+  margin: auto;
+  padding: 10px;
+  font-size: 1.5rem;
+  color: white;
+}
+
+th {
+  background-color: rgb(92, 90, 90);
+  padding: 10px;
+}
+
+td {
+  font-size: 1.25rem !important;
+}
+
+.zahl {
+  font-size: 1.25rem;
+  color: rgb(92, 90, 90);
+}
+
+.sep {
+  width: 100%;
+}
+
+.sep-base {
+  grid-column: 2 / span 3;
+  width: 100%;
+}
+
+.footer {
+  width: 60%;
+  margin: auto;
+  padding: 1rem;
+  color: rgb(92, 90, 90);
+}
