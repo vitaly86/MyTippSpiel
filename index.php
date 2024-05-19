@@ -39,17 +39,21 @@ $spiel = new Spiel($conn);
                 <a href="#">sign up</a>
                 <div id="user-form-container">
                     <?php
-                    if (isset($_GET['error']) && isset($_GET['user'])) { ?>
-                        <p class="error">
-                            <?php echo htmlspecialchars($_GET['error']); ?>
-                        </p>
-                    <?php  } ?>
-                    <?php
-                    if (isset($_GET['success']) && isset($_GET['user'])) { ?>
-                        <p class="success">
-                            <?php echo htmlspecialchars($_GET['success']); ?>
-                        </p>
-                    <?php  } ?>
+                    if (!isset($_GET['host'])) {
+                        if (isset($_GET['error'])) { ?>
+                            <p class="error">
+                                <?php echo htmlspecialchars($_GET['error']); ?>
+                            </p>
+                        <?php  } ?>
+                        <?php
+                        if (isset($_GET['success'])) { ?>
+                            <p class="success">
+                                <?php echo htmlspecialchars($_GET['success']); ?>
+                            </p>
+                    <?php  }
+                    } else {
+                        echo "";
+                    } ?>
                     <form action="Actions/anmelden_user_daten.php" method="post">
                         <div class="form-content">Email address*<input type="text" class="user-daten" id="uemail" name="uemail"></div>
                         <div class="form-content">Password*<input type="password" class="user-daten" id="upass" name="upassword"></div>

@@ -141,7 +141,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                         $spiel1->get_max_SpielDatum($curr_null_event_id);
                         $event_begin = $spiel1->showSpielminDatum();
                         $event_ended = $spiel1->showSpielmaxDatum();
-                        $get_momentum = $spiel1->get_zietraum_Event($event_begin, $event_ended);
+                        $get_momentum = $spiel1->get_zeitraum_Event($event_begin, $event_ended);
                 ?>
                         <tr>
                             <td class='id'><?php echo $curr_null_event_id; ?></td>

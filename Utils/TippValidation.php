@@ -91,4 +91,18 @@ class TippValidation
         }
         return $tipp_data;
     }
+
+    public static function choseAction($insert, $update)
+    {
+        if (!isset($insert) && !isset($update)) {
+            return false;
+        } else return true;
+    }
+
+    public static function choseTipp($tipp1, $tipp2, $tipp3)
+    {
+        if (!isset($tipp1) && !isset($tipp2) && !isset($tipp3)) {
+            return false;
+        } else return true;
+    }
 }

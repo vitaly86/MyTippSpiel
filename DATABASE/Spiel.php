@@ -215,7 +215,7 @@ class Spiel
         } else return false;
     }
 
-    public function get_zietraum_Event(
+    public function get_zeitraum_Event(
         $min_datum,
         $max_datum
     ) {
@@ -226,6 +226,13 @@ class Spiel
         } else if (($max_datum < $this->current_date)) {
             return "ergebnisse";
         }
+    }
+
+    public function get_ValidDatum($tipp_datum)
+    {
+        if ($tipp_datum < $this->spiel_datum) {
+            return true;
+        } else return false;
     }
 
 

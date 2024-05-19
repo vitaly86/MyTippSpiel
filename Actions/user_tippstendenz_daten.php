@@ -6,6 +6,9 @@ print_r($_SESSION);
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     print_r($_POST);
+    $insert = $_POST['op_insert'];
+    $update = $_POST['op_update'];
+
     $team_A = $team_B = $sieg = $niederlage = $unentschieden = null;
 
     if (isset($_POST['op_teamA'])) {
@@ -45,15 +48,72 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else if (!TippValidation::tippDatum($tipp_datum)) {
         $em = "Invalid datetime format";
         Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
+    } else if (!TippValidation::choseTipp($sieg, $niederlage, $unentschieden)) {
+        $em = "You must chose a Tipp: [Sieg/Niederlage/Unentschieden]?";
+        Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
+    } else if (!TippValidation::choseAction($insert, $update)) {
+        $em = "You must chose an action: [Insert/Update]?";
+        Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
     } else {
         $db = new Database();
         $conn = $db->connect();
         $tipp = new TippTendenz($conn);
-        if ($tipp->exists()) {
-            if (isset($_POST['op_insert']) && !empty($_POST['op_insert'])) {
-                $spiel_id = $_SESSION['spiel_id'];
-                $user_id = $_SESSION['user_id'];
-                if ($tipp->not_Inserted($spiel_id, $user_id)) {
+        $spiel = new Spiel($conn);
+        $user_id = $_SESSION['user_id'];
+        $spiel_id = $_SESSION['spiel_id'];
+        $spiel->init_one_Spiel($spiel_id);
+        $tipp_valid = $spiel->get_ValidDatum($tipp_datum);
+        if (!$tipp_valid) {
+            $em = "Game already started! No more Tipps!";
+            Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
+        } else {
+            if ($tipp->exists()) {
+                if (isset($_POST['op_insert']) && !empty($_POST['op_insert'])) {
+                    $spiel_id = $_SESSION['spiel_id'];
+                    $user_id = $_SESSION['user_id'];
+                    if ($tipp->not_Inserted($spiel_id, $user_id)) {
+                        $user_data = [$spiel_id, $user_id, $tipp_datum];
+                        $spiel_data = TippValidation::getData($team_A, $team_B, $sieg, $niederlage, $unentschieden);
+                        $tipp_data = array_merge($user_data, $spiel_data);
+                        $res = $tipp->insert($tipp_data);
+                        if ($res) {
+                            $sm = "Your Tipp is successfully registered!";
+                            Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_success", $sm, $data);
+                        } else {
+                            $em = "An error occurred";
+                            Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
+                        }
+                    } else {
+                        $em = "The tipp already exists. You can still Update.";
+                        Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
+                    }
+                } else if (isset($_POST['op_update']) && !empty($_POST['op_update'])) {
+                    $spiel_id = $_SESSION['spiel_id'];
+                    $user_id = $_SESSION['user_id'];
+                    if (!$tipp->not_Inserted($spiel_id, $user_id)) {
+                        $spiel_data = TippValidation::getData($team_A, $team_B, $sieg, $niederlage, $unentschieden);
+                        $tipp_data = [
+                            'tippAteam' => $spiel_data[0],
+                            'tippBteam' => $spiel_data[1],
+                            'tippdatum' => $tipp_datum
+                        ];
+                        $res = $tipp->update($tipp_data, $spiel_id, $user_id);
+                        if ($res) {
+                            $sm = "Your Tipp is successfully updated!";
+                            Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_success", $sm, $data);
+                        } else {
+                            $em = "The tipp was not updated";
+                            Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
+                        }
+                    } else {
+                        $em = "Sorry, the tipp is not inserted";
+                        Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
+                    }
+                }
+            } else {
+                if (isset($_POST['op_insert']) && !empty($_POST['op_insert'])) {
+                    $spiel_id = $_SESSION['spiel_id'];
+                    $user_id = $_SESSION['user_id'];
                     $user_data = [$spiel_id, $user_id, $tipp_datum];
                     $spiel_data = TippValidation::getData($team_A, $team_B, $sieg, $niederlage, $unentschieden);
                     $tipp_data = array_merge($user_data, $spiel_data);
@@ -62,54 +122,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         $sm = "Your Tipp is successfully registered!";
                         Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_success", $sm, $data);
                     } else {
-                        $em = "An error occurred";
+                        $em = "The tipp was not registered";
                         Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
                     }
-                } else {
-                    $em = "The tipp already exists. You can still Update.";
+                } else if (isset($_POST['op_update']) && !empty($_POST['op_update'])) {
+                    $em = "Before update you have to insert it!";
                     Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
                 }
-            } else if (isset($_POST['op_update']) && !empty($_POST['op_update'])) {
-                $spiel_id = $_SESSION['spiel_id'];
-                $user_id = $_SESSION['user_id'];
-                if (!$tipp->not_Inserted($spiel_id, $user_id)) {
-                    $spiel_data = TippValidation::getData($team_A, $team_B, $sieg, $niederlage, $unentschieden);
-                    $tipp_data = [
-                        'tippAteam' => $spiel_data[0],
-                        'tippBteam' => $spiel_data[1],
-                        'tippdatum' => $tipp_datum
-                    ];
-                    $res = $tipp->update($tipp_data, $spiel_id, $user_id);
-                    if ($res) {
-                        $sm = "Your Tipp is successfully updated!";
-                        Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_success", $sm, $data);
-                    } else {
-                        $em = "The tipp was not updated";
-                        Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
-                    }
-                } else {
-                    $em = "Sorry, the tipp is not inserted";
-                    Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
-                }
-            }
-        } else {
-            if (isset($_POST['op_insert']) && !empty($_POST['op_insert'])) {
-                $spiel_id = $_SESSION['spiel_id'];
-                $user_id = $_SESSION['user_id'];
-                $user_data = [$spiel_id, $user_id, $tipp_datum];
-                $spiel_data = TippValidation::getData($team_A, $team_B, $sieg, $niederlage, $unentschieden);
-                $tipp_data = array_merge($user_data, $spiel_data);
-                $res = $tipp->insert($tipp_data);
-                if ($res) {
-                    $sm = "Your Tipp is successfully registered!";
-                    Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_success", $sm, $data);
-                } else {
-                    $em = "The tipp was not registered";
-                    Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
-                }
-            } else if (isset($_POST['op_update']) && !empty($_POST['op_update'])) {
-                $em = "Before update you have to insert it!";
-                Util::redirect("../PHP/abgeben_tipps.php", "t_tendenz_error", $em, $data);
             }
         }
     }

@@ -3,6 +3,12 @@ session_start();
 require_once "../config.php";
 if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
     $_SESSION['spiel_id'] = $_GET['spiel_id'];
+    $db = new Database();
+    $conn = $db->connect();
+    $spiel = new Spiel($conn);
+    $spiel_id = $_SESSION['spiel_id'];
+    $spiel->init_one_Spiel($spiel_id);
+    $spiel_data = $spiel->get_one_SpielData();
 ?>
 
     <!DOCTYPE html>
@@ -25,7 +31,7 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
         <div class="entry">
             <a href="homepage-user.php">Startseite</a>
         </div>
-        <h1>Geben Sie bitte den Spiel Tipp ab</h1>
+        <h1><?php echo $spiel_data['spiel_name']; ?> </h1>
         <hr>
         <div class="container">
             <?php
@@ -112,5 +118,5 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
     </html>
 <?php } else {
     $em = "first select a spiel";
-    Util::redirect("../PHP/homepage-user.php", "error", $em, $data);
+    // Util::redirect("../PHP/homepage-user.php", "error", $em, $data);
 } ?>

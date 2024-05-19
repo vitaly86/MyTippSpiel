@@ -2,8 +2,9 @@
 session_start();
 include '../config.php';
 
-if (isset($_SESSION['user_email'])) {
-    $es = "Abgemeldet!" . "&user=OK";
+print_r($_SESSION);
+if (isset($_SESSION['host_name'])) {
+    $es = "Abgemeldet!&host=OK";
 } else {
     $es = "Abgemeldet!";
 }
