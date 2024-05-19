@@ -14,7 +14,7 @@ class Spiel
     private $max_spiel_datum;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2023-05-12 23:30:01";
+    private $current_date = "2023-01-05 23:30:01";
 
     public function __construct($db_conn)
     {

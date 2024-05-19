@@ -95,6 +95,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                                 </div>
                             </div>
                             <hr>
+                            <h1 class="tipps"><a href="tipps_user_event.php?event_id=<?php echo $curr_event_id; ?>">Current Tipps</a></h1>
+                            <hr>
                         <?php } else { ?>
                             <h1 class="status">Status: Abgelaufen</h1>
                             <hr>

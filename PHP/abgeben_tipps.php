@@ -24,7 +24,6 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
         <div id="header"></div>
         <div class="entry">
             <a href="homepage-user.php">Startseite</a>
-            <a href="tipps-user.php">Deine Tipps</a>
         </div>
         <h1>Geben Sie bitte den Spiel Tipp ab</h1>
         <hr>

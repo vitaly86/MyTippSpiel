@@ -91,6 +91,15 @@ h1 {
   color: rgb(184, 31, 31);
 }
 
+.container2 .tipps a {
+  text-decoration: none;
+  color: rgb(92, 90, 90);
+}
+
+.container2 .tipps a:hover {
+  text-decoration: underline;
+}
+
 #enquire {
   font-size: 1.15rem;
   padding: 1rem;
