@@ -12,8 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $host_id = $_SESSION['host_id'];
     $host_name = $_SESSION['host_name'];
 
-    // $data = "spiel_id=" . $spiel_id . "&team_A=" . $erg_Team_A . "&team_B=" . $erg_Team_B;
-
     if (!HostEinstellungValidation::tippScore($tordiff)) {
         $em = "Punkte für genauer Tipp is invalid";
         Util::redirect("../PHP/einstellungen-host.php", "error", $em, $data);
@@ -28,22 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $conn = $db->connect();
         $einstellungen = new Einstellung($conn);
         $init_data = [$host_id, $host_name, NULL, NULL, NULL];
-        if ($einstellungen->not_Inserted($init_data)) {
-            $einstellungen_data = [
-                'tordiff' => $tordiff,
-                'winnloss' => $winnloss,
-                'equality' => $equality
-            ];
-            $res = $einstellungen->insert($einstellungen_data, $host_id, $host_name);
-            if ($res) {
-                $sm = "Einstellungen sind erfolgreich gespeichert!";
-                Util::redirect("../PHP/einstellungen-host.php", "success", $sm, $data);
-            } else {
-                $em = "Einstellungen wurde nicht gespeichert";
-                Util::redirect("../PHP/einstellungen-host.php", "error", $em, $data);
-            }
+        $einstellungen_data = [
+            'tordiff' => $tordiff,
+            'winnloss' => $winnloss,
+            'equality' => $equality
+        ];
+        $res = $einstellungen->insert($einstellungen_data, $host_id, $host_name);
+        if ($res) {
+            $sm = "Einstellungen sind erfolgreich gespeichert!";
+            Util::redirect("../PHP/einstellungen-host.php", "success", $sm, $data);
         } else {
-            $em = "Sorry, Einstellungen sind schon vorhanden";
+            $em = "Einstellungen wurde nicht gespeichert";
             Util::redirect("../PHP/einstellungen-host.php", "error", $em, $data);
         }
     }

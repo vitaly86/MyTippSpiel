@@ -74,25 +74,26 @@ $spiel = new Spiel($conn);
             <?php
             $event->startPageEvents();
             $start_events = $event->getEventsStart();
+            $count = 0;
             for ($i = 0; $i < count($start_events['event_id']); $i++) {
                 $user_event_id = $start_events['event_id'][$i];
                 $user_event_name = $start_events['event_name'][$i];
                 $spiel_exist = $spiel->verifySpieleEvent($user_event_id);
                 if ($spiel_exist) {
-                    $spiel->get_min_SpielDatum($user_event_id);
-                    $max_enroll_datum = $spiel->showSpielminDatum();
-                    $event_ok = $spiel->get_debut_Event($max_enroll_datum);
-                    if ($event_ok) {
-            ?>
+                    $count += 1;
+                    $spiel->find_min_SpielDatum($user_event_id);
+                    $max_enroll_datum = $spiel->getEventStart();
+                    $event_ok = $spiel->get_Tipps_Available($max_enroll_datum);
+                    if ($event_ok) { ?>
                         <tr>
-                            <td class='id'><?php echo $user_event_id; ?></td>
+                            <td class='id'><?php echo $count; ?></td>
                             <td class='datum'><?php echo $max_enroll_datum; ?></td>
                             <td class='event'><?php echo $user_event_name; ?></td>
                             <td class='chose'><a href="PHP/register-user.php?user_event_id=<?php echo $user_event_id; ?>" class='enroll'>Enroll</a></td>
                         </tr>
                     <?php  } else { ?>
                         <tr>
-                            <td class='id'><?php echo $user_event_id; ?></td>
+                            <td class='id'><?php echo $count; ?></td>
                             <td class='datum'><?php echo $max_enroll_datum; ?></td>
                             <td class='event'><?php echo $user_event_name; ?></td>
                             <td class='chose'><a href="#" class='abgelaufen'>Abgelaufen</a></td>

@@ -38,9 +38,9 @@ class Schema
   email VARCHAR(50) NOT NULL,
   passwort VARCHAR(100) NOT NULL, 
   foto VARCHAR(30) DEFAULT NULL, 
-  tordiff INT(20) DEFAULT NULL, 
-  winnloss INT(20) DEFAULT NULL,
-  equality INT(20) DEFAULT NULL
+  tordiff INT(20) DEFAULT 10, 
+  winnloss INT(20) DEFAULT 5,
+  equality INT(20) DEFAULT 15
   )";
         $conn->exec($sql);
         $conn = null;

@@ -1,6 +1,16 @@
 <?php
 session_start();
 require_once "../config.php";
+$db = new Database();
+$conn = $db->connect();
+$host = new Host($conn);
+$host_id = $_SESSION['host_id'];
+$host->initHostUser($host_id);
+$host_data = $host->getHostUser();
+$host_name = $host_data['host_fullname'];
+$tordiff = $host_data['host_tordiff'];
+$winnloss = $host_data['host_winnloss'];
+$unentschieden = $host_data['host_equality'];
 
 ?>
 
@@ -24,7 +34,7 @@ require_once "../config.php";
     <div class="entry">
         <a href="homepage-host.php">Startseite</a>
     </div>
-    <h1>Host</h1>
+    <h1><?php echo $host_name; ?></h1>
     <h1>Einstellungen</h1>
     <hr>
     <div class="container">
@@ -48,11 +58,11 @@ require_once "../config.php";
         <?php  } ?>
         <form action="../Actions/einstellungen_host_daten.php" method="post">
             <h2>Punkte für genauer Tipp</h2>
-            <div class="items">Richtige Tordifferenz *<input type="text" name="tordiff" class="tipps-values" placeholder="Tordifferenz"></div>
+            <div class="items">Richtige Tordifferenz *<input type="text" name="tordiff" class="tipps-values" placeholder="Tordifferenz"><?php echo $tordiff; ?>p</div>
             <hr>
             <h2>Punkte für Tendenz Tipp</h2>
-            <div class="items">Übereinstimmen (Sieg / Niederlage) *<input type="text" name="stimmt" class="tipps-values" placeholder="Sieg / Niederlage"></div>
-            <div class="items">Unentschieden *<input type="text" name="gleich" class="tipps-values" placeholder="Unentschieden"></div>
+            <div class="items">Übereinstimmen (Sieg / Niederlage) *<input type="text" name="stimmt" class="tipps-values" placeholder="Sieg / Niederlage"><?php echo $winnloss; ?>p</div>
+            <div class="items">Unentschieden *<input type="text" name="gleich" class="tipps-values" placeholder="Unentschieden"><?php echo $unentschieden; ?>p</div>
             <input type="submit" name="hconfig" id="host_config" value="Speichern">
         </form>
     </div>

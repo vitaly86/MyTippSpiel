@@ -42,6 +42,13 @@ h1 {
   text-align: center;
   font-size: 3rem;
 }
+
+h2 {
+  text-transform: capitalize;
+  text-align: center;
+  font-size: 2rem;
+  color: rgb(84, 83, 83);
+}
 .container {
   width: 60%;
   margin: auto;

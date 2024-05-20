@@ -42,7 +42,7 @@ if (isset($_SESSION['host_id']) && isset($_SESSION['host_name'])) {
                     <ul class='list_events'>
                         <?php for ($i = 0; $i < count($events['event_id']); $i++) {
                             $event_spiele = $events['event_id'][$i]; ?>
-                            <li><?php echo $events['event_id'][$i] ?>.
+                            <li><?php echo $i + 1; ?>.
                                 <a href="hinzufuegen_spiele.php?event_id=<?php echo $event_spiele ?>"><?php echo $events['event_name'][$i] ?></a>
                             </li>
                         <?php } ?>
@@ -72,7 +72,7 @@ if (isset($_SESSION['host_id']) && isset($_SESSION['host_name'])) {
                             </tr>
                             <?php for ($i = 0; $i < count($user_data['users_ids']); $i++) { ?>
                                 <tr>
-                                    <td><?php echo $user_data['users_ids'][$i]; ?></td>
+                                    <td><?php echo $i + 1; ?></td>
                                     <td><?php echo $user_data['users_names'][$i]; ?></td>
                                     <td><?php echo $user_data['users_emails'][$i]; ?></td>
                                 </tr>
@@ -88,7 +88,7 @@ if (isset($_SESSION['host_id']) && isset($_SESSION['host_name'])) {
                     <ul class='list_events'>
                         <?php for ($i = 0; $i < count($events['event_id']); $i++) {
                             $event_spiele = $events['event_id'][$i]; ?>
-                            <li><?php echo $events['event_id'][$i] ?>.
+                            <li><?php echo $i + 1; ?>.
                                 <a href="register-spiele.php?event_id=<?php echo $event_spiele ?>"><?php echo $events['event_name'][$i] ?></a>
                             </li>
                         <?php } ?>

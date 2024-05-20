@@ -14,7 +14,7 @@ class Spiel
     private $max_spiel_datum;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2023-01-25 16:30:01";
+    private $current_date = "2023-06-25 16:30:01";
 
     public function __construct($db_conn)
     {
@@ -174,7 +174,7 @@ class Spiel
         }
     }
 
-    public function get_min_SpielDatum($event_id)
+    public function find_min_SpielDatum($event_id)
     {
         try {
             $sql = "SELECT DISTINCT MIN(spieldatum) AS min_datum FROM " . $this->table_name . " WHERE espid=?";
@@ -191,7 +191,7 @@ class Spiel
         }
     }
 
-    public function get_max_SpielDatum($event_id)
+    public function find_max_SpielDatum($event_id)
     {
         try {
             $sql = "SELECT DISTINCT MAX(spieldatum) AS max_datum FROM " . $this->table_name . " WHERE espid=?";
@@ -208,7 +208,7 @@ class Spiel
         }
     }
 
-    public function get_debut_Event($max_enroll_datum)
+    public function get_Tipps_Available($max_enroll_datum)
     {
         if ($max_enroll_datum > $this->current_date) {
             return true;
@@ -320,13 +320,15 @@ class Spiel
         return $data;
     }
 
-    public function showSpielminDatum()
+    public function getEventStart()
     {
         return $this->min_spiel_datum;
     }
 
-    public function showSpielmaxDatum()
+    public function getEventEnde()
     {
-        return $this->max_spiel_datum;
+        $get_end_event = new DateTime($this->max_spiel_datum);
+        $get_end_event->modify('+3 hours');
+        return $get_end_event->format('Y-m-d H:i:s');
     }
 }

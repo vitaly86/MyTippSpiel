@@ -2,9 +2,18 @@
 session_start();
 require_once "../config.php";
 
-$event_id = $_SESSION['event_id'];
-$_SESSION['spiel_id'] = $_GET['spiel_id'];
-$spiel_id = $_GET['spiel_id'];;
+if (isset($_GET['event_id']) && isset($_GET['spiel_id'])) {
+    $db = new Database();
+    $conn = $db->connect();
+    $spiel = new Spiel($conn);
+
+    $event_id = $_SESSION['event_id'];
+    $_SESSION['spiel_id'] = $_GET['spiel_id'];
+    $spiel_id = $_GET['spiel_id'];
+
+    $spiel->init_one_Spiel($spiel_id);
+    $spiel_data = $spiel->get_one_SpielData();
+}
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +36,7 @@ $spiel_id = $_GET['spiel_id'];;
     <div class="entry">
         <a href="register-spiele.php?event_id=<?php echo $event_id; ?>&spiel_id=<?php echo $spiel_id; ?>">select spiel</a>
     </div>
-    <h1>Event Ergebnisse</h1>
+    <h2><?php echo $spiel_data['spiel_name']; ?></h2>
     <hr>
     <div class="container">
         <?php

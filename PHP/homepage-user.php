@@ -129,22 +129,23 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                 $data_event_ids = $event_ids['user_event'];
                 $event1->find_null_UserEvents($data_event_ids);
                 $null_event_user_ids = $event1->get_null_UserEvents();
-
-                foreach ($null_event_user_ids as $null_event_id) {
+                $count = 0;
+                foreach ($null_event_user_ids as $key => $null_event_id) {
                     $spiel_exist = $spiel1->verifySpieleEvent($null_event_id);
                     if ($spiel_exist) {
+                        $count += 1;
                         $event1->init_null_EventsUser($null_event_id);
                         $null_event_data = $event1->null_data_UserEvents();
                         $curr_null_event_id = $null_event_data['event_id'];
                         $curr_null_event_name = $null_event_data['event_name'];
-                        $spiel1->get_min_SpielDatum($curr_null_event_id);
-                        $spiel1->get_max_SpielDatum($curr_null_event_id);
-                        $event_begin = $spiel1->showSpielminDatum();
-                        $event_ended = $spiel1->showSpielmaxDatum();
+                        $spiel1->find_min_SpielDatum($curr_null_event_id);
+                        $spiel1->find_max_SpielDatum($curr_null_event_id);
+                        $event_begin = $spiel1->getEventStart();
+                        $event_ended = $spiel1->getEventEnde();
                         $get_momentum = $spiel1->get_zeitraum_Event($event_begin, $event_ended);
                 ?>
                         <tr>
-                            <td class='id'><?php echo $curr_null_event_id; ?></td>
+                            <td class='id'><?php echo $count; ?></td>
                             <td class='begin'><?php echo $event_begin; ?></td>
                             <td class='end'><?php echo $event_ended; ?></td>
                             <td class='event'><?php echo $curr_null_event_name; ?></td>

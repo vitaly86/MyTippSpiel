@@ -40,13 +40,13 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
     <hr>
     <div id="content">
         <div class="host-container">
-            <?php foreach ($host_ids['user_host'] as $host_id) {
+            <?php foreach ($host_ids['user_host'] as $key => $host_id) {
                 $host->initHostUser($host_id);
                 $host_data = $host->getHostUser(); ?>
                 <div class='host-menu'>
                     <div class="config">
                         <ul>
-                            <li><a href="?host_id=<?php echo $host_data["host_id"]; ?>"><?php echo $host_data["host_id"] . '. ' . $host_data['host_fullname']; ?></a></li>
+                            <li><a href="?host_id=<?php echo $host_data["host_id"]; ?>"><?php echo $key + 1 . '. ' . $host_data['host_fullname']; ?></a></li>
                         </ul>
                     </div>
                 </div>

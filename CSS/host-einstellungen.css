@@ -52,8 +52,9 @@ h1 {
 .container .items {
   width: 65%;
   display: grid;
-  grid-template-columns: 0.75fr 1.3fr;
+  grid-template-columns: 0.75fr 1.3fr 0.25fr;
   grid-template-rows: repeat(4, 1.2rem);
+  align-items: center;
   gap: 0 2rem;
   color: rgb(84, 83, 83);
   font-size: 1.2rem;
