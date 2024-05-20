@@ -7,10 +7,12 @@ if (isset($_SESSION['host_id']) && isset($_SESSION['host_name'])) {
     $host = new Host($conn);
     $event = new Event($conn);
     $user = new User($conn);
+    $spiel = new Spiel($conn);
     $host->initHost($_SESSION['host_id']);
     $event->initEvent($_SESSION['host_id']);
     $host_data = $host->getHost();
     $events = $event->getEventsHost();
+    $events_ids = $events['event_id'];
 ?>
     <!DOCTYPE html>
     <html lang="de">
@@ -86,11 +88,24 @@ if (isset($_SESSION['host_id']) && isset($_SESSION['host_name'])) {
                 <div class="c3-items">
                     <h1>ergebnisse eintragen</h1>
                     <ul class='list_events'>
-                        <?php for ($i = 0; $i < count($events['event_id']); $i++) {
-                            $event_spiele = $events['event_id'][$i]; ?>
-                            <li><?php echo $i + 1; ?>.
-                                <a href="register-spiele.php?event_id=<?php echo $event_spiele ?>"><?php echo $events['event_name'][$i] ?></a>
-                            </li>
+                        <?php
+                        $list_events = $spiel->getCountEvents();
+                        if (!$list_events) {
+                            foreach ($events_ids as $key => $event_id) {
+                                $spiel->find_min_SpielDatum($event_id);
+                                $start = $spiel->showEventHost();
+                                if ($start) {
+                        ?>
+                                    <li><?php echo $key + 1; ?>.
+                                        <a href="register-spiele.php?event_id=<?php echo $event_id ?>"><?php echo $events['event_name'][$key]; ?></a>
+                                    </li>
+                            <?php }
+                            }
+                        }
+                        $event_existence = $spiel->checkEventsExist();
+                        $list_events = $spiel->getCountEvents();
+                        if (!$event_existence) { ?>
+                            <li>Kein Event angefangen.</li>
                         <?php } ?>
                     </ul>
                 </div>

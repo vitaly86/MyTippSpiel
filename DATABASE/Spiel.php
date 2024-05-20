@@ -12,9 +12,10 @@ class Spiel
     private $spiel_datum;
     private $min_spiel_datum;
     private $max_spiel_datum;
+    private $spiele_count = 0;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2022-12-10 16:30:01";
+    private $current_date = "2024-01-25 16:30:01";
 
     public function __construct($db_conn)
     {
@@ -180,6 +181,30 @@ class Spiel
         }
     }
 
+    public function initSpieleResultsExpired($event_id)
+    {
+        try {
+            $sql = "SELECT * FROM " . $this->table_name . " WHERE espid=? AND spieldatum<? ORDER BY spieldatum DESC";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$event_id, $this->current_date]);
+            if ($stmt->rowCount() >= 1) {
+                $spiele = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($spiele as $spiel) {
+                    array_push($this->s_id, $spiel['spid']);
+                    array_push($this->s_name, $spiel['spielname']);
+                    array_push($this->s_datum, $spiel['spieldatum']);
+                    $this->r_teamA[] = $spiel['teamAresult'];
+                    $this->r_teamB[] = $spiel['teamBresult'];
+                }
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
     public function verifySpieleEvent($event_id)
     {
         try {
@@ -249,6 +274,26 @@ class Spiel
         if (($this->max_spiel_datum < $spiel_datum) && ($this->max_spiel_datum < $this->current_date)) {
             return true;
         } else return false;
+    }
+
+    public function showEventHost()
+    {
+        if (($this->min_spiel_datum <= $this->current_date) && ($this->min_spiel_datum != "")) {
+            $this->spiele_count += 1;
+            return true;
+        } else return false;
+    }
+
+    public function checkEventsExist()
+    {
+        if ($this->spiele_count > 0) {
+            return true;
+        } else return false;
+    }
+
+    public function getCountEvents()
+    {
+        return $this->spiele_count;
     }
 
     public function get_Tipps_Available($max_enroll_datum)

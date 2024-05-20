@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $spiel_id = $_SESSION['spiel_id'];
     $event_id = $_SESSION['event_id'];
 
-    $data = "spiel_id=" . $spiel_id . "&team_A=" . $erg_Team_A . "&team_B=" . $erg_Team_B;
+    $data = "event_id=" . $spiel_id . "&spiel_id=" . $spiel_id . "&team_A=" . $erg_Team_A . "&team_B=" . $erg_Team_B;
 
     if (!ErgebnissValidation::teamResult($erg_Team_A)) {
         $em = "Team A result is invalid";

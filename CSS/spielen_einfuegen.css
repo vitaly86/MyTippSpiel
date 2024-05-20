@@ -14,13 +14,12 @@ body {
 
 .entry {
   height: 7rem;
-  width: 60%;
+  width: 80%;
   margin: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: 20px;
 }
 
 .entry a {
@@ -46,18 +45,39 @@ h1 {
 h2 {
   text-transform: capitalize;
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: rgb(92, 90, 90);
 }
 
-.container {
-  width: 60%;
+#bg-color {
+  background-color: rgb(159, 155, 155);
+  width: 90%;
   margin: auto;
-  margin-top: 5rem;
 }
 
-.container .items {
-  width: 60%;
+.container {
+  width: 100%;
+  background-color: rgb(159, 155, 155);
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+.container .form-data {
+  width: 40%;
+  margin: 0 auto 0 auto;
+  padding: 2rem 0 2rem 0;
+}
+
+#denominator {
+  margin: 30px auto;
+}
+
+.form-data .items {
+  width: 80%;
+  margin: auto;
   display: grid;
   grid-template-columns: 0.5fr 1.3fr;
   grid-template-rows: repeat(3, 1.2rem);
@@ -67,53 +87,55 @@ h2 {
   font-weight: bolder;
 }
 
-.container .error {
+.form-data .error {
   margin: 0 0 3px 0;
   padding: 10px;
   color: red;
 }
 
-.container .success {
+.form-data .success {
   margin: 0 0 3px 0;
   padding: 10px;
   color: green;
 }
 
-.container .items .spiel-einfuegen {
+.form-data .items .spiel-einfuegen {
   height: 2.2rem;
   border: 1px solid white;
   background-color: white;
   outline-color: rgb(118, 117, 117);
 }
 
-.container #add_spiel {
+.form-data #add_spiel {
   background-color: rgb(92, 90, 90);
-  margin: 2rem 0 2rem 0;
+  margin: 2rem 0 2rem 65px;
   padding: 15px 25px;
   color: white;
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
-.container #add_spiel:hover {
+.form-data #add_spiel:hover {
   background-color: rgb(118, 117, 117);
 }
 
-.container-spiele {
-  width: 100%;
+#sep {
+  width: 2rem;
+  background-color: rgb(190, 185, 185);
+}
+
+.container .container-spiele {
+  width: 60%;
   background-color: rgb(159, 155, 155);
 }
 
 .container-spiele .spiele-info {
   text-transform: capitalize;
-  width: 60%;
+  width: 100%;
   margin: auto;
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 table {
@@ -121,25 +143,21 @@ table {
 }
 
 tr,
-td {
+td,
+th {
   border: 1px solid rgb(92, 90, 90);
   margin: auto;
-  padding: 10px;
-  font-size: 1.5rem;
+  padding: 7px;
+  font-size: 1.25rem;
   color: white;
 }
 
 th {
   background-color: rgb(92, 90, 90);
-  padding: 10px;
-}
-
-td {
-  font-size: 1.25rem !important;
 }
 
 #footer {
-  width: 60%;
+  width: 80%;
   margin: auto;
   padding-top: 2rem;
   color: rgb(92, 90, 90);

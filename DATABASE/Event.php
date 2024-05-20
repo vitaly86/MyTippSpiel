@@ -131,7 +131,7 @@ class Event
         }
     }
 
-    public function initEventSpiele($events_id)                                 // verification after
+    public function initEventSpiele($events_id)
     {
         try {
             $sql = "SELECT * FROM " . $this->table_name . " WHERE eid=?";
@@ -197,25 +197,6 @@ class Event
             return 0;
         }
     }
-
-
-    // public function getEventsHost()
-    // {
-    //     $events = array(
-    //         'event_id' => $this->e_id,
-    //         'event_name' => $this->e_name
-    //     );
-    //     // return $data;
-    //     $ul = "<ul id='list_events'>";
-    //     for ($i = 0; $i < count($events['event_id']); $i++) {
-    //         $event_spiele = $events['event_id'][$i];
-    //         $ul .= "<li>" . $events['event_id'][$i] . ". " .
-    //             "<a href=" . "hinzufuegen_spiele.php?event_id=$event_spiele>" .
-    //             $events['event_name'][$i] . "</a></li>";
-    //     }
-    //     $ul .= "</ul>";
-    //     echo $ul;
-    // }
 
     public function getEventsHost()
     {
