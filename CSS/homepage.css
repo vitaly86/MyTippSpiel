@@ -7,6 +7,15 @@ body {
   background-color: rgb(190, 185, 185);
 }
 
+.top-bar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgb(190, 185, 185);
+}
+
 #logo {
   font-size: 3rem;
 }
@@ -23,7 +32,7 @@ h1 {
 .container1 {
   height: 7rem;
   width: 60%;
-  margin: auto;
+  margin: 175px auto 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -151,7 +160,7 @@ h1 {
 .id,
 .datum,
 .event {
-  border: 1px solid black;
+  border: 1px solid rgb(92, 90, 90);
   width: 65%;
   margin: auto;
   padding-bottom: 15px;

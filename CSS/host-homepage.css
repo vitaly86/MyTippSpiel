@@ -7,6 +7,15 @@ body {
   background-color: rgb(190, 185, 185);
 }
 
+.top-bar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgb(190, 185, 185);
+}
+
 h1 {
   text-transform: capitalize;
   text-align: center;
@@ -21,7 +30,7 @@ h1 {
 .container1 {
   height: 7rem;
   width: 60%;
-  margin: auto;
+  margin: 175px auto 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;

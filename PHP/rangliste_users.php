@@ -1,7 +1,5 @@
 <?php
-session_start();
 include "rangliste_rechnungen.php";
-
 if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
     $result = new Result($conn);
     $result->initOrderResults($id_event);
@@ -26,8 +24,10 @@ if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
 </head>
 
 <body>
-    <h1>Willkommen zum Sport-Event</h1>
-    <div id="header"></div>
+    <div class="top-bar">
+        <h1>Willkommen zum Sport-Event</h1>
+        <div id="header"></div>
+    </div>
     <div class="entry">
         <a href="ergebnisse_event.php?event_id=<?php echo $id_event; ?>">Eventseite</a>
     </div>

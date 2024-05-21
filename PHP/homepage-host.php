@@ -29,8 +29,10 @@ if (isset($_SESSION['host_id']) && isset($_SESSION['host_name'])) {
     </head>
 
     <body>
-        <h1>Willkommen zum Sport-Event</h1>
-        <div id="header"></div>
+        <div class="top-bar">
+            <h1>Willkommen zum Sport-Event</h1>
+            <div id="header"></div>
+        </div>
         <div class="container1">
             <a href="einstellungen-host.php">einstellungen</a>
             <a href="../Actions/abmelden.php">log out</a>

@@ -15,7 +15,7 @@ class Spiel
     private $spiele_count = 0;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2024-01-25 16:30:01";
+    private $current_date = "2024-05-12 18:00:01";
 
     public function __construct($db_conn)
     {
@@ -264,8 +264,14 @@ class Spiel
 
     public function checkedLaufenEvent($spiel_datum)
     {
-        if (($this->min_spiel_datum < $spiel_datum) && ($this->min_spiel_datum < $this->current_date)) {
-            return true;
+        if (($this->min_spiel_datum < $spiel_datum) &&
+            ($this->min_spiel_datum < $this->current_date)
+        ) {
+            $current_date = new DateTime($this->current_date);
+            $trans_spiel_datum = new DateTime($spiel_datum);
+            if ($current_date > $trans_spiel_datum) {
+                return true;
+            } else return false;
         } else return false;
     }
 

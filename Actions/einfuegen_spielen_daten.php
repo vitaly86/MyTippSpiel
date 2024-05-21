@@ -3,7 +3,6 @@ session_start();
 include '../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    print_r($_POST);
     $spiel_name = SpielValidation::clean($_POST['sname']);
     $spiel_datum = SpielValidation::clean($_POST['sdatum']);
 
@@ -29,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $em = "Sorry, the Event is expired!";
             Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
         } else if ($check_beginn) {
-            $em = "Sorry, the Event already begun! No more games!";
+            $em = "Attention, the Event already begun! Please, set a valid date!";
             Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
         } else if (!$check_valid) {
             $em = "Sorry, your Game date is in the past!";

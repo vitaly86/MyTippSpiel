@@ -108,6 +108,7 @@ class TippGenau
     public function getTippGenau()
     {
         $data = $this->tipptordiff;
+        $this->tipptordiff = null;
         return $data;
     }
 

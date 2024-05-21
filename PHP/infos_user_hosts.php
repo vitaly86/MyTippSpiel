@@ -31,8 +31,10 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
 </head>
 
 <body>
-    <h1>Willkommen zum Sport-Event</h1>
-    <div id="header"></div>
+    <div class="top-bar">
+        <h1>Willkommen zum Sport-Event</h1>
+        <div id="header"></div>
+    </div>
     <div class="container">
         <a href="homepage-user.php">startseite</a>
     </div>

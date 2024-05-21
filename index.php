@@ -20,8 +20,10 @@ $spiel = new Spiel($conn);
 </head>
 
 <body>
-    <h1 id="logo">Willkommen zum Sport-Event</h1>
-    <div id="header"></div>
+    <div class="top-bar">
+        <h1 id="logo">Willkommen zum Sport-Event</h1>
+        <div id="header"></div>
+    </div>
     <div class="container1">
         <a href="">about us</a>
         <span class="c1-item1">

@@ -13,7 +13,7 @@ class SpielValidation
     public static function spielName($str)
     {
         # Letters only
-        $name_regex = "/^([a-zA-Z0-9:,. ]+)$/";
+        $name_regex = "/^([a-zA-Z0-9:,.\- ]+)$/";
         if (preg_match($name_regex, $str))
             return true;
         else

@@ -114,6 +114,8 @@ class TippTendenz
             'tipp_teamA' => $this->tipp_teamA,
             'tipp_teamB' => $this->tipp_teamB
         );
+        $this->tipp_teamA = null;
+        $this->tipp_teamB = null;
         return $data;
     }
 

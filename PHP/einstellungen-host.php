@@ -29,8 +29,10 @@ $unentschieden = $host_data['host_equality'];
 </head>
 
 <body>
-    <h1>Willkommen zum Sport-Event</h1>
-    <div id="header"></div>
+    <div class="top-bar">
+        <h1>Willkommen zum Sport-Event</h1>
+        <div id="header"></div>
+    </div>
     <div class="entry">
         <a href="homepage-host.php">Startseite</a>
     </div>

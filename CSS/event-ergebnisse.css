@@ -7,6 +7,15 @@ body {
   background-color: rgb(190, 185, 185);
 }
 
+.top-bar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: rgb(190, 185, 185);
+}
+
 #header {
   height: 3rem;
   background-color: black;
@@ -15,7 +24,7 @@ body {
 .entry {
   height: 7rem;
   width: 60%;
-  margin: auto;
+  margin: 150px auto 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -57,6 +66,17 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.container .event_info .host-mess {
+  display: flex;
+  flex-direction: row;
+}
+
+.container .event_info p {
+  color: rgb(180, 23, 23);
+  font-size: 1.5rem;
+  margin: auto;
 }
 
 .container .event_info .details {

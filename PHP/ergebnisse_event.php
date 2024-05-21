@@ -35,8 +35,10 @@ if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
 </head>
 
 <body>
-    <h1>Willkommen zum Sport-Event</h1>
-    <div id="header"></div>
+    <div class="top-bar">
+        <h1>Willkommen zum Sport-Event</h1>
+        <div id="header"></div>
+    </div>
     <div class="entry">
         <a href="homepage-user.php?event_id=<?php echo $id_event; ?>">Startseite</a>
         <?php if (isset($_GET['zeitraum']) && $_GET['zeitraum'] == 'innerhalb') {
@@ -49,7 +51,12 @@ if (isset($_GET['event_id']) && !empty($_GET['event_id'])) {
     <hr>
     <div class="container">
         <div class="event_info">
-            <div class="details">Host: <?php echo $host_data['host_fullname']; ?></div>
+            <div class="host-mess">
+                <div class="details">Host: <?php echo $host_data['host_fullname']; ?></div>
+                <?php if (isset($_GET['error']) && !empty($_GET['error'])) { ?>
+                    <p class="error"><?php echo $_GET['error']; ?> </p>
+                <?php } ?>
+            </div>
             <div>
                 <hr>
             </div>
