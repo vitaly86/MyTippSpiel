@@ -37,7 +37,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
         </div>
         <div class="container1">
             <a href="infos_user_hosts.php">hosts</a>
-            <a href="../Actions/abmelden.php">log out</a>
+            <a href="../Actions/abmelden_user.php">log out</a>
         </div>
         <h1>Welcome <?php echo $user_data['user_name']; ?></h1>
         <h1>Deine aktuelle Events</h1>
