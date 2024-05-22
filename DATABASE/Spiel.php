@@ -15,7 +15,7 @@ class Spiel
     private $spiele_count = 0;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2024-05-12 18:00:01";
+    private $current_date = "2024-05-13 18:00:01";
 
     public function __construct($db_conn)
     {
@@ -94,6 +94,8 @@ class Spiel
                     array_push($this->s_id, $spiel['spid']);
                     array_push($this->s_name, $spiel['spielname']);
                     array_push($this->s_datum, $spiel['spieldatum']);
+                    $this->r_teamA[] = $spiel['teamAresult'];
+                    $this->r_teamB[] = $spiel['teamBresult'];
                 }
                 return 1;
             } else {
@@ -411,6 +413,8 @@ class Spiel
         $this->s_id = [];
         $this->s_name = [];
         $this->s_datum = [];
+        $this->r_teamA = [];
+        $this->r_teamB = [];
         return $data;
     }
 
