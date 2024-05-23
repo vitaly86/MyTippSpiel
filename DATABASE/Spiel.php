@@ -15,7 +15,7 @@ class Spiel
     private $spiele_count = 0;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2023-05-25 18:00:01";
+    private $current_date = "2024-08-25 18:00:01";
 
     public function __construct($db_conn)
     {

@@ -1,3 +1,4 @@
+const buttonForm = document.getElementById("usubmit");
 const abgelaufenEvent = document.querySelectorAll(".abgelaufen");
 const currUrl = window.location.href;
 const myIndexPage = window.location.origin + "/schule/MyTippSpiel/index.php";
@@ -9,15 +10,42 @@ function changeUrl(page, url) {
   }
 }
 
+function showLogs() {
+  const userFormEnroll = document.getElementById("user-form-container");
+  let error = document.querySelector(".error");
+  let success = document.querySelector(".success");
+  if (error && error.textContent != "") {
+    userFormEnroll.style.display = "block";
+  } else if (success && success.textContent != "") {
+    userFormEnroll.style.display = "block";
+  } else {
+    userFormEnroll.style.display = "none";
+  }
+}
+
+function reloadP() {
+  sessionStorage.setItem("reloading", "true");
+  document.location.reload();
+}
+
+window.onload = function () {
+  let reloading = sessionStorage.getItem("reloading");
+  if (reloading == "true") {
+    sessionStorage.removeItem("reloading");
+    showLogs();
+    changeUrl(currUrl, myIndexPage);
+  }
+};
+
 function showUserEnroll() {
   const userFormEnroll = document.getElementById("user-form-container");
   let style = window.getComputedStyle(userFormEnroll);
   let error = document.querySelector(".error");
   let success = document.querySelector(".success");
-  console.log(success);
+
   if (style.display == "none") {
     userFormEnroll.style.display = "block";
-  } else {
+  } else if (style.display == "block") {
     userFormEnroll.style.display = "none";
   }
   if (success) {
@@ -34,6 +62,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+document.getElementById("usubmit").addEventListener("click", reloadP);
+
 for (let i = 0, abgEvent; (abgEvent = abgelaufenEvent[i]); i++) {
   abgEvent.addEventListener("click", () => {
     alert(
@@ -41,7 +71,3 @@ for (let i = 0, abgEvent; (abgEvent = abgelaufenEvent[i]); i++) {
     );
   });
 }
-changeUrl(currUrl, myIndexPage);
-
-// console.log(currUrl);
-// console.log(myIndexPage);
