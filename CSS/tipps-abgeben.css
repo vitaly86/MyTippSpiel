@@ -78,6 +78,13 @@ h1 {
   outline-color: rgb(118, 117, 117);
 }
 
+.action_genau,
+.action_tendenz,
+.team,
+.tendenz_tipp_option {
+  cursor: pointer;
+}
+
 .container #genauer_tipp,
 .container #tendenz_tipp {
   background-color: rgb(92, 90, 90);

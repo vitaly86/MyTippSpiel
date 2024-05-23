@@ -15,7 +15,7 @@ class Spiel
     private $spiele_count = 0;
     private $r_teamA;
     private $r_teamB;
-    private $current_date = "2024-05-13 18:00:01";
+    private $current_date = "2023-05-25 18:00:01";
 
     public function __construct($db_conn)
     {
@@ -38,10 +38,43 @@ class Spiel
         }
     }
 
+    public function existsOne($event_id)
+    {
+        try {
+            $sql = "SELECT * FROM " . $this->table_name . " WHERE espid=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$event_id]);
+            echo "<br>Res Value<br>";
+            if ($stmt->rowCount() == 1) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
+    public function existsTwo($event_id)
+    {
+        try {
+            $sql = "SELECT * FROM " . $this->table_name . " WHERE espid=?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$event_id]);
+            if ($stmt->rowCount() > 1) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (PDOException $e) {
+            return 0;
+        }
+    }
+
     public function init_one_Spiel($spiel_id)
     {
         try {
-            $sql = "SELECT spielname, spieldatum FROM " . $this->table_name . " WHERE spid=?";
+            $sql = "SELECT spielname, spieldatum FROM " . $this->table_name . " WHERE espid=?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$spiel_id]);
             if ($stmt->rowCount() == 1) {

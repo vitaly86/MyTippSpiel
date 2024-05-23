@@ -24,43 +24,64 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $check_ende = $spiel->checkedAbgelaufenEvent($spiel_datum);
         $check_beginn = $spiel->checkedLaufenEvent($spiel_datum);
         $check_valid = $spiel->checkedBeginnEvent($spiel_datum);
-        if ($check_ende) {
-            $em = "Sorry, the Event is expired!";
-            Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
-        } else if ($check_beginn) {
-            $em = "Attention, the Event already begun! Please, set a valid date!";
-            Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
-        } else if (!$check_valid) {
-            $em = "Sorry, your Game date is in the past!";
-            Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
-        } else {
-            if ($spiel->exists()) {
-                if ($spiel->is_SpielUnique($spiel_name, $event_id)) {
-                    $spiel_data = [$event_id, $spiel_name, $spiel_datum];
-                    $res = $spiel->insert($spiel_data);
-
-                    if ($res) {
-                        $sm = "Successfully registered!";
-                        Util::redirect("../PHP/hinzufuegen_spiele.php", "success", $sm, $data);
-                    } else {
-                        $em = "The game was not registered";
-                        Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
-                    }
+        if ($spiel->existsOne($event_id)) {
+            if (!$spiel->is_SpielUnique($spiel_name, $event_id)) {
+                $em = "The game already exists inside this event";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+            } else if ($check_ende) {
+                $em = "Sorry, the Event is expired!";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+            } else if (!$check_valid) {
+                $em = "Sorry, your Game date is in the past!";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+            } else {
+                $spiel_data = [$event_id, $spiel_name, $spiel_datum];
+                $res = $spiel->insert($spiel_data);
+                if ($res) {
+                    $sm = "Successfully registered!";
+                    Util::redirect("../PHP/hinzufuegen_spiele.php", "success", $sm, $data);
                 } else {
-                    $em = "The game already exists inside this event";
+                    $em = "The game was not registered";
                     Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
                 }
+            }
+        } else if ($spiel->existsTwo($event_id)) {
+            if (!$spiel->is_SpielUnique($spiel_name, $event_id)) {
+                $em = "The game already exists inside this event";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+            } else if ($check_ende) {
+                $em = "Sorry, the Event is expired!";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+            } else if ($check_beginn) {
+                $em = "Attention, the Event already begun! Please, set a valid date!";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+            } else if (!$check_valid) {
+                $em = "Sorry, your Game date is in the past!";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+            } else {
+                $spiel_data = [$event_id, $spiel_name, $spiel_datum];
+                $res = $spiel->insert($spiel_data);
+                if ($res) {
+                    $sm = "Successfully registered!";
+                    Util::redirect("../PHP/hinzufuegen_spiele.php", "success", $sm, $data);
+                } else {
+                    $em = "The game was not registered";
+                    Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
+                }
+            }
+        } else {
+            if (!$check_valid) {
+                $em = "Sorry, your Game date is in the past!";
+                Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
             } else {
                 $event_id = $_SESSION['event_id'];
                 $spiel_data = [$event_id, $spiel_name, $spiel_datum];
                 $res = $spiel->insert($spiel_data);
 
                 if ($res) {
-                    echo "Successfully registered!";
                     $sm = "Successfully registered!";
                     Util::redirect("../PHP/hinzufuegen_spiele.php", "success", $sm, $data);
                 } else {
-                    echo "The game was not registered";
                     $em = "The game was not registered";
                     Util::redirect("../PHP/hinzufuegen_spiele.php", "error", $em, $data);
                 }

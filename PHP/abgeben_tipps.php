@@ -22,6 +22,9 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
         if (isset($_GET['error']) or isset($_GET['success'])) { ?>
             <link rel="stylesheet" type="text/css" href="../CSS/tipps-abgeben.css">
         <?php } ?>
+        <?php if (isset($_SESSION['user_id']) && (isset($_SESSION['user_email']))) { ?>
+            <script src="../JS/tipps-abgeben.js" defer></script>
+        <?php } ?>
         <title>User Tipps Daten</title>
     </head>
 
@@ -57,8 +60,8 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
                 <div class="items">Tordifferenz *<input type="text" name="tordiff" class="tipps-values" placeholder="Score"></div>
                 <div class="items">Action *
                     <div class="actions">
-                        <input type="radio" id="insert_tipp" class="action" name="op_insert">Insert
-                        <input type="radio" id="update_tipp" class="action" name="op_update">Update
+                        <input type="radio" id="insert_tipp" class="action_genau" name="op_insert">Insert
+                        <input type="radio" id="update_tipp" class="action_genau" name="op_update">Update
                     </div>
                 </div>
                 <div class="items">Datum *<input type="datetime-local" name="t_datum" class="tipps-values" placeholder="Your current Date"></div>
@@ -95,15 +98,15 @@ if (isset($_GET['spiel_id']) && !empty($_GET['spiel_id'])) {
                 </div>
                 <div class="items">Tipp *
                     <div class="tendenz_tipps">
-                        <input type="radio" id="sieg" class="tendenz_tipp" name="t_sieg">Sieg
-                        <input type="radio" id="niederlage" class="tendenz_tipp" name="t_niederlage">Niederlage
-                        <input type="radio" id="unentschieden" class="tendenz_tipp" name="t_unentschieden">Unentschieden
+                        <input type="radio" id="sieg" class="tendenz_tipp_option" name="t_sieg">Sieg
+                        <input type="radio" id="niederlage" class="tendenz_tipp_option" name="t_niederlage">Niederlage
+                        <input type="radio" id="unentschieden" class="tendenz_tipp_option" name="t_unentschieden">Unentschieden
                     </div>
                 </div>
                 <div class="items">Action *
                     <div class="actions">
-                        <input type="radio" id="insert_tipp" class="action" name="op_insert">Insert
-                        <input type="radio" id="update_tipp" class="action" name="op_update">Update
+                        <input type="radio" id="insert_tipp" class="action_tendenz" name="op_insert">Insert
+                        <input type="radio" id="update_tipp" class="action_tendenz" name="op_update">Update
                     </div>
                 </div>
                 <div class="items">Datum *<input type="datetime-local" name="t_datum" class="tipps-values" placeholder="Your current Date"></div>

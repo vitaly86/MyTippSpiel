@@ -23,6 +23,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="../CSS/user-homepage.css">
+        <?php if (isset($_SESSION['user_id']) && (isset($_SESSION['user_email']))) { ?>
+            <script src="../JS/user-homepage.js" defer></script>
+        <?php } ?>
         <?php
         if (isset($_GET['error']) or isset($_GET['success'])) { ?>
             <link rel="stylesheet" type="text/css" href="../CSS/user-homepage.css">
@@ -44,10 +47,15 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
         <hr>
         <div id="content">
             <div class="container2">
-                <div class="c2-items">
-                    <?php for ($ev = 0; $ev < count($events_data['event_id']); $ev++) {  ?>
+                <?php
+                $index_EL = 0;
+                $index_EA = 0;
+                for ($ev = 0; $ev < count($events_data['event_id']); $ev++) {  ?>
+                    <div class="c2-items1">
                         <h1 class="events"><?php echo $events_data['event_name'][$ev] ?></h1>
-                        <hr>
+                        <div>
+                            <hr>
+                        </div>
                         <?php
                         $curr_event_id = $events_data['event_id'][$ev];
                         $tipp_spiele = $spiele->initSpieleExists($curr_event_id);
@@ -55,118 +63,129 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
                             $spiele->initSpieleEvent($curr_event_id);
                             $spiele_data = $spiele->getSpielData();
                         ?>
-                            <h1 class="status">Status: Laufen</h1>
-                            <hr>
-                            <h1 class="spiele">Spiele</h1>
-                            <hr>
-                            <div class="contents_spiel">
-                                <div>
-                                    <?php
-                                    for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
-                                        $spiel_datum = $spiele_data['spiel_datum'][$i];
-                                        $tipp_ok = $spiele->getTippsAvailability($spiel_datum);
-                                        if ($tipp_ok) {
-                                    ?>
-                                            <div class="spiel_data">Tippen:
-                                                <a class="spiele" href="abgeben_tipps.php?spiel_id=<?php echo $spiele_data['spiel_id'][$i]; ?>">
+                            <div class="event-laufen event-mixed" id="
+                            <?php echo $index_EL;
+                            $index_EL += 1;
+                            ?>">
+                                <h1 class="status js-status">Status: Laufen</h1>
+                                <hr>
+                                <h1 class="spiele-den">Spiele</h1>
+                                <hr>
+                                <div class="contents_spiel">
+                                    <div>
+                                        <?php
+                                        for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
+                                            $spiel_datum = $spiele_data['spiel_datum'][$i];
+                                            $tipp_ok = $spiele->getTippsAvailability($spiel_datum);
+                                            if ($tipp_ok) {
+                                        ?>
+                                                <div class="spiel_data">Tippen:
+                                                    <a class="spiele" href="abgeben_tipps.php?spiel_id=<?php echo $spiele_data['spiel_id'][$i]; ?>">
+                                                        <?php echo $spiele_data['spiel_name'][$i]; ?>
+                                                    </a>
+                                                </div>
+                                            <?php } else { ?>
+                                                <div class="spiel_data">Tippen:
                                                     <?php echo $spiele_data['spiel_name'][$i]; ?>
-                                                </a>
-                                            </div>
-                                        <?php } else { ?>
-                                            <div class="spiel_data">Tippen:
-                                                <?php echo $spiele_data['spiel_name'][$i]; ?>
-                                            </div>
-                                    <?php }
-                                    } ?>
+                                                </div>
+                                        <?php }
+                                        } ?>
+                                    </div>
+                                    <div class="spiel_data">
+                                        <?php
+                                        for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
+                                            $spiel_datum = $spiele_data['spiel_datum'][$i];
+                                            $tipp_ok = $spiele->getTippsAvailability($spiel_datum);
+                                            if ($tipp_ok) {
+                                        ?>
+                                                <div class="spiel_data">Beginnt am:
+                                                    <span class="spiele"><?php echo $spiele_data['spiel_datum'][$i]; ?> </span>
+                                                </div>
+                                            <?php } else { ?>
+                                                <div class="spiel_data"><span class="closed">Nicht verfügbar</span></div>
+                                        <?php
+                                            }
+                                        } ?>
+                                    </div>
                                 </div>
-                                <div class="spiel_data">
-                                    <?php
-                                    for ($i = 0; $i < count($spiele_data['spiel_id']); $i++) {
-                                        $spiel_datum = $spiele_data['spiel_datum'][$i];
-                                        $tipp_ok = $spiele->getTippsAvailability($spiel_datum);
-                                        if ($tipp_ok) {
-                                    ?>
-                                            <div class="spiel_data">Beginnt am:
-                                                <span class="spiele"><?php echo $spiele_data['spiel_datum'][$i]; ?> </span>
-                                            </div>
-                                        <?php } else { ?>
-                                            <div class="spiel_data"><span class="closed">Nicht verfügbar</span></div>
-                                    <?php
-                                        }
-                                    } ?>
-                                </div>
+                                <hr>
+                                <h1 class="tipps"><a href="tipps_user_event.php?event_id=<?php echo $curr_event_id; ?>">Deine Current Tipps</a></h1>
+                                <hr>
                             </div>
-                            <hr>
-                            <h1 class="tipps"><a href="tipps_user_event.php?event_id=<?php echo $curr_event_id; ?>">Deine Current Tipps</a></h1>
-                            <hr>
-                        <?php } else { ?>
-                            <h1 class="status">Status: Abgelaufen</h1>
-                            <hr>
-                            <h1 class="status"><a href="ergebnisse_event.php?event_id=<?php echo $curr_event_id; ?>">Ergebnisse</a></h1>
-                            <hr>
-                    <?php
-                        }
-                    } ?>
-                    <div id="enquire">Möchtest du bei anderen Events teilnehmen?</div>
-                    <div class="chose">
-                        <a href="#">Ja</a>
-                        <a href="#">Nein</a>
                     </div>
-                    <hr>
-                </div>
-
+                <?php } else { ?>
+                    <div class="event-abgelaufen event-mixed" id="
+                            <?php echo $index_EA;
+                            $index_EA += 1;
+                            ?>">
+                        <h1 class="status js-status">Status: Abgelaufen</h1>
+                        <hr>
+                        <h1 class="status"><a href="ergebnisse_event.php?event_id=<?php echo $curr_event_id; ?>">Ergebnisse</a></h1>
+                        <hr>
+                    </div>
             </div>
-            <table id='table'>
-                <tr>
-                    <th>Id</th>
-                    <th>Beginn</th>
-                    <th>Ende</th>
-                    <th id='limit'>Event</th>
-                </tr>
-                <?php
-                $user1 = new User($conn);
-                $event1 = new Event($conn);
-                $spiel1 = new Spiel($conn);
-                $user_id = $_SESSION['user_id'];
-                $data_event_ids = $event_ids['user_event'];
-                $event1->find_null_UserEvents($data_event_ids);
-                $null_event_user_ids = $event1->get_null_UserEvents();
-                $count = 0;
-                foreach ($null_event_user_ids as $key => $null_event_id) {
-                    $spiel_exist = $spiel1->verifySpieleEvent($null_event_id);
-                    if ($spiel_exist) {
-                        $count += 1;
-                        $event1->init_null_EventsUser($null_event_id);
-                        $null_event_data = $event1->null_data_UserEvents();
-                        $curr_null_event_id = $null_event_data['event_id'];
-                        $curr_null_event_name = $null_event_data['event_name'];
-                        $spiel1->find_min_SpielDatum($curr_null_event_id);
-                        $spiel1->find_max_SpielDatum($curr_null_event_id);
-                        $event_begin = $spiel1->getEventStart();
-                        $event_ended = $spiel1->getEventEnde();
-                        $get_momentum = $spiel1->get_zeitraum_Event($event_begin, $event_ended);
-                ?>
-                        <tr>
-                            <td class='id'><?php echo $count; ?></td>
-                            <td class='begin'><?php echo $event_begin; ?></td>
-                            <td class='end'><?php echo $event_ended; ?></td>
-                            <td class='event'><?php echo $curr_null_event_name; ?></td>
-                            <?php if ($get_momentum == "enroll") { ?>
-                                <td class="chose"><a href="new_event_user.php?event_user_id=<?php echo $null_event_id; ?>" class="option">Enroll</a></td>
-                            <?php
-                            } else if ($get_momentum == "innerhalb") { ?>
-                                <td class="chose"><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>&zeitraum=innerhalb" class="option">Innerhalb</a></td>
-                            <?php
-                            } else if ($get_momentum == "ergebnisse") { ?>
-                                <td class="chose"><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>" class="option">Ergebnisse</a></td>
-                            <?php } ?>
-                        </tr>
-                <?php }
-                }
+        <?php } ?>
+    <?php } ?>
+    <div class="c2-items2">
+        <div id="enquire">Möchtest du bei anderen Events teilnehmen?</div>
+        <div class="chose">
+            <a href="#" id="ja-enroll">Ja</a>
+            <a href="#" id="nein-enroll">Nein</a>
+        </div>
+        <hr>
+    </div>
+        </div>
+        <table id='table'>
+            <tr>
+                <th>Id</th>
+                <th>Beginn</th>
+                <th>Ende</th>
+                <th id='limit'>Event</th>
+            </tr>
+            <?php
+            $user1 = new User($conn);
+            $event1 = new Event($conn);
+            $spiel1 = new Spiel($conn);
+            $user_id = $_SESSION['user_id'];
+            $data_event_ids = $event_ids['user_event'];
+            $event1->find_null_UserEvents($data_event_ids);
+            $null_event_user_ids = $event1->get_null_UserEvents();
+            $count = 0;
+            foreach ($null_event_user_ids as $key => $null_event_id) {
+                $spiel_exist = $spiel1->verifySpieleEvent($null_event_id);
+                if ($spiel_exist) {
+                    $count += 1;
+                    $event1->init_null_EventsUser($null_event_id);
+                    $null_event_data = $event1->null_data_UserEvents();
+                    $curr_null_event_id = $null_event_data['event_id'];
+                    $curr_null_event_name = $null_event_data['event_name'];
+                    $spiel1->find_min_SpielDatum($curr_null_event_id);
+                    $spiel1->find_max_SpielDatum($curr_null_event_id);
+                    $event_begin = $spiel1->getEventStart();
+                    $event_ended = $spiel1->getEventEnde();
+                    $get_momentum = $spiel1->get_zeitraum_Event($event_begin, $event_ended);
+            ?>
+                    <tr>
+                        <td class='id'><?php echo $count; ?></td>
+                        <td class='begin'><?php echo $event_begin; ?></td>
+                        <td class='end'><?php echo $event_ended; ?></td>
+                        <td class='event'><?php echo $curr_null_event_name; ?></td>
+                        <?php if ($get_momentum == "enroll") { ?>
+                            <td><a href="new_event_user.php?event_user_id=<?php echo $null_event_id; ?>" class="option">Enroll</a></td>
+                        <?php
+                        } else if ($get_momentum == "innerhalb") { ?>
+                            <td><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>&zeitraum=innerhalb" class="option">Innerhalb</a></td>
+                        <?php
+                        } else if ($get_momentum == "ergebnisse") { ?>
+                            <td><a href="ergebnisse_event.php?event_id=<?php echo $null_event_id; ?>" class="option">Ergebnisse</a></td>
+                        <?php } ?>
+                    </tr>
+            <?php }
+            }
 
-                ?>
+            ?>
 
-            </table>
+        </table>
         </div>
         <div id="footer">&copy; 2024 Tippspiel</div>
     </body>

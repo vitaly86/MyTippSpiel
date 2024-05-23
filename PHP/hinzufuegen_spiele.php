@@ -25,6 +25,9 @@ if (isset($_GET['event_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../CSS/spielen_einfuegen.css">
+    <?php if (isset($_SESSION['host_id']) && (isset($_SESSION['host_name'])) && isset($_GET['event_id'])) { ?>
+        <script src="../JS/spielen_einfuegen.js" defer></script>
+    <?php } ?>
     <?php
     if (isset($_GET['error']) or isset($_GET['success'])) { ?>
         <link rel="stylesheet" type="text/css" href="../CSS/spielen_einfuegen.css">

@@ -21,6 +21,9 @@ $unentschieden = $host_data['host_equality'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../CSS/host-einstellungen.css">
+    <?php if (isset($_SESSION['host_id']) && (isset($_SESSION['host_name']))) { ?>
+        <script src="../JS/host-einstellungen.js" defer></script>
+    <?php } ?>
     <?php
     if (isset($_GET['error']) or isset($_GET['success'])) { ?>
         <link rel="stylesheet" type="text/css" href="../CSS/host-einstellungen.css">

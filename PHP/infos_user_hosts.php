@@ -27,6 +27,13 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_email'])) {
     if (isset($_GET['error']) or isset($_GET['success'])) { ?>
         <link rel="stylesheet" type="text/css" href="../CSS/user_hosts_infos.css">
     <?php } ?>
+    <?php if (isset($_SESSION['user_id']) && (isset($_SESSION['user_email']))) {
+        if (!isset($_GET['host_id'])) { ?>
+            <script src="../JS/user_hosts_infos.js" defer></script>
+        <?php } else { ?>
+            <script src="../JS/user_hosts_infos.js" defer></script>
+    <?php }
+    } ?>
     <title>User Hosts Infos</title>
 </head>
 
