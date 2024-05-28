@@ -29,7 +29,7 @@ CREATE TABLE `events` (
   PRIMARY KEY (`eid`),
   KEY `FK_HostEvents` (`heid`),
   CONSTRAINT `FK_HostEvents` FOREIGN KEY (`heid`) REFERENCES `hosts` (`hid`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,1,'FIFA World Cup'),(2,1,'Wimbledon'),(3,2,'Basketball'),(4,2,'Pole vault');
+INSERT INTO `events` VALUES (1,1,'FIFA World Cup'),(2,1,'Wimbledon'),(3,2,'Basketball'),(4,2,'Pole vault'),(5,3,'Tour de France');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,11 +87,11 @@ CREATE TABLE `hosts` (
   `email` varchar(50) NOT NULL,
   `passwort` varchar(100) NOT NULL,
   `foto` varchar(30) DEFAULT NULL,
-  `tordiff` int(20) DEFAULT NULL,
-  `winnloss` int(20) DEFAULT NULL,
-  `equality` int(20) DEFAULT NULL,
+  `tordiff` int(20) DEFAULT 10,
+  `winnloss` int(20) DEFAULT 5,
+  `equality` int(20) DEFAULT 15,
   PRIMARY KEY (`hid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `hosts` (
 
 LOCK TABLES `hosts` WRITE;
 /*!40000 ALTER TABLE `hosts` DISABLE KEYS */;
-INSERT INTO `hosts` VALUES (1,'vitaly','vitaly86','vitaly@gmail.com','$2y$10$64NMwy08IkwTHg8OjZF1E.p1ZrLyvIEBcZgPIAPKteAxvIdmMsQhO','me.jpg',3,1,1),(2,'stefan','stefan90','stefan@gmail.com','$2y$10$.tjn2HH2UdPoHPyB5TVJVuSy8cj/4FWlhiMBsDXcm.qJ/JKLZGp.q','stefan.jpg',NULL,NULL,NULL);
+INSERT INTO `hosts` VALUES (1,'vitaly','vitaly86','vitaly@gmail.com','$2y$10$64NMwy08IkwTHg8OjZF1E.p1ZrLyvIEBcZgPIAPKteAxvIdmMsQhO','me.jpg',4,2,2),(2,'stefan','stefan90','stefan@gmail.com','$2y$10$.tjn2HH2UdPoHPyB5TVJVuSy8cj/4FWlhiMBsDXcm.qJ/JKLZGp.q','stefan.jpg',10,5,15),(3,'eugenis','marry2000','marry@gmail.com','$2y$10$4gHC2DKKWvSGZkMvi7TxjuOhmbfVA0h58j6ROCwU2FXn318Zsrh4S','marry.jpg',10,5,15);
 /*!40000 ALTER TABLE `hosts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +130,7 @@ CREATE TABLE `results` (
 
 LOCK TABLES `results` WRITE;
 /*!40000 ALTER TABLE `results` DISABLE KEYS */;
-INSERT INTO `results` VALUES (1,1,1,1),(2,2,1,0),(3,3,1,6),(4,7,1,5),(5,1,2,0),(6,4,2,0),(7,5,2,0),(8,3,2,0);
+INSERT INTO `results` VALUES (1,1,1,1),(2,2,1,0),(3,3,1,3),(4,7,1,2),(5,1,3,0),(6,3,3,0),(7,6,3,20),(8,8,3,0);
 /*!40000 ALTER TABLE `results` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +151,7 @@ CREATE TABLE `spiele` (
   PRIMARY KEY (`spid`),
   KEY `FK_EventSpiele` (`espid`),
   CONSTRAINT `FK_EventSpiele` FOREIGN KEY (`espid`) REFERENCES `events` (`eid`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `spiele` (
 
 LOCK TABLES `spiele` WRITE;
 /*!40000 ALTER TABLE `spiele` DISABLE KEYS */;
-INSERT INTO `spiele` VALUES (1,1,'Group A: Ecuador vs. Qatar','2023-01-01 09:30:00',0,0),(2,1,'Group B: England vs. Iran','2023-10-01 11:40:00',2,5),(3,1,'Group A: Netherlands vs. Senegal','2023-01-20 07:45:00',5,2),(4,1,'Group C: Saudi Arabia vs. Argentina','2023-02-02 19:45:00',10,6),(5,1,'Group E: Japan vs. Germany','2023-02-05 02:00:00',1,4),(6,3,'Group D: France vs. Australia','2024-05-12 13:30:00',NULL,NULL),(7,3,'Group F: Belgium vs. Canada','2024-05-12 21:30:00',NULL,NULL);
+INSERT INTO `spiele` VALUES (1,1,'Group A: Ecuador vs. Qatar','2023-01-01 09:30:00',0,0),(2,1,'Group B: England vs. Iran','2023-10-01 11:40:00',2,5),(3,1,'Group A: Netherlands vs. Senegal','2023-01-20 07:45:00',5,2),(4,1,'Group C: Saudi Arabia vs. Argentina','2023-02-02 19:45:00',10,6),(5,1,'Group E: Japan vs. Germany','2023-02-05 02:00:00',1,4),(6,3,'Group D: France vs. Australia','2024-05-12 13:30:00',NULL,NULL),(7,3,'Group F: Belgium vs. Canada','2024-05-12 21:30:00',2,2),(8,5,'Pro Cycling Manager','2024-05-19 21:50:00',NULL,NULL),(9,1,'Group B: Moldawien Vs. Roumanie','2022-12-25 14:30:00',1,2),(10,3,'All-Star Game','2024-05-22 09:10:55',2,1),(11,3,'Half-Court Shot Challenge','2024-05-12 14:00:00',2,2),(12,3,'Slam Dunk Contest','2024-05-12 18:00:00',1,2),(13,3,'1-on-1 Tournament','2024-05-12 15:30:00',3,3),(14,3,'Charity Game','2024-05-12 16:45:00',2,1),(15,1,'Group A: France Vs. Italy','2023-05-22 09:00:00',4,2),(21,2,'Group B: Khina Vs. Japan','2023-05-09 11:50:00',NULL,NULL),(23,2,'Group B: Turkey Vs. Serbien','2023-07-01 21:45:00',NULL,NULL),(24,2,'Group B: USA Vs. Kanada','2023-05-20 10:00:00',NULL,NULL),(25,2,'Group B: Turkey Vs. Romania','2023-06-01 08:45:00',NULL,NULL);
 /*!40000 ALTER TABLE `spiele` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,7 +192,7 @@ CREATE TABLE `tendenztipps` (
 
 LOCK TABLES `tendenztipps` WRITE;
 /*!40000 ALTER TABLE `tendenztipps` DISABLE KEYS */;
-INSERT INTO `tendenztipps` VALUES (1,1,1,'niederlage','sieg','1986-10-24 01:30:00'),(2,6,6,'sieg','niederlage','2024-05-12 14:00:00'),(3,7,6,'unentschieden','unentschieden','2024-05-12 21:15:00'),(4,1,7,'unentschieden','unentschieden','2023-03-01 09:45:00'),(5,2,7,'sieg','niederlage','2023-03-02 11:00:00'),(6,3,7,'niederlage','sieg','2023-03-03 14:00:00'),(7,4,7,'sieg','niederlage','2023-03-04 19:00:00'),(8,5,7,'unentschieden','unentschieden','2023-03-05 00:00:00'),(9,2,1,'unentschieden','unentschieden','2023-04-10 10:25:00'),(10,3,1,'sieg','niederlage','2023-04-11 02:15:00'),(11,4,1,'niederlage','sieg','2023-04-12 08:00:00'),(12,5,1,'unentschieden','unentschieden','2023-04-14 11:00:00'),(13,1,2,'niederlage','sieg','2023-05-20 10:00:00'),(14,2,2,'sieg','niederlage','2023-05-21 15:15:00'),(15,3,2,'unentschieden','unentschieden','2023-05-25 16:45:00'),(16,4,2,'niederlage','sieg','2023-05-27 17:30:00'),(17,5,2,'unentschieden','unentschieden','2023-05-29 19:00:00'),(18,1,3,'unentschieden','unentschieden','2023-06-01 10:15:00'),(19,2,3,'niederlage','sieg','2023-06-03 09:00:00'),(20,3,3,'niederlage','sieg','2023-06-05 06:25:00'),(21,4,3,'sieg','niederlage','2023-06-10 04:00:00'),(22,5,3,'unentschieden','unentschieden','2023-06-15 03:15:00');
+INSERT INTO `tendenztipps` VALUES (1,1,1,'niederlage','sieg','1986-10-24 01:30:00'),(2,6,6,'sieg','niederlage','2024-05-12 14:00:00'),(3,7,6,'unentschieden','unentschieden','2024-05-12 21:15:00'),(4,1,7,'unentschieden','unentschieden','2023-03-01 09:45:00'),(5,2,7,'sieg','niederlage','2023-03-02 11:00:00'),(6,3,7,'niederlage','sieg','2023-03-03 14:00:00'),(7,4,7,'sieg','niederlage','2023-03-04 19:00:00'),(8,5,7,'unentschieden','unentschieden','2023-03-05 00:00:00'),(9,2,1,'sieg','niederlage','2023-05-15 10:45:00'),(10,3,1,'sieg','niederlage','2023-04-11 02:15:00'),(11,4,1,'niederlage','sieg','2023-04-12 08:00:00'),(12,5,1,'unentschieden','unentschieden','2023-04-14 11:00:00'),(13,1,2,'niederlage','sieg','2023-05-20 10:00:00'),(14,2,2,'sieg','niederlage','2023-05-21 15:15:00'),(15,3,2,'unentschieden','unentschieden','2023-05-25 16:45:00'),(16,4,2,'niederlage','sieg','2023-05-27 17:30:00'),(17,5,2,'unentschieden','unentschieden','2023-05-29 19:00:00'),(18,1,3,'unentschieden','unentschieden','2023-06-01 10:15:00'),(19,2,3,'niederlage','sieg','2023-06-03 09:00:00'),(20,3,3,'niederlage','sieg','2023-06-05 06:25:00'),(21,4,3,'sieg','niederlage','2023-06-10 04:00:00'),(22,5,3,'unentschieden','unentschieden','2023-06-15 03:15:00');
 /*!40000 ALTER TABLE `tendenztipps` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +209,7 @@ CREATE TABLE `users` (
   `useremail` varchar(50) NOT NULL,
   `upasswort` varchar(100) NOT NULL,
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +218,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'stefan','stefan@gmail.com','$2y$10$B2/kqhdp66mprPgknIyEv.2sl4q5dIzYY.aYmyLqLSZojs7foD2zq'),(2,'tamara','tamara@gmail.com','$2y$10$RWu5xLwwxE7HCd2dH.yvue4jeOE31lOiagDuiyINubuGD237o/t0u'),(3,'dennis','dennis@gmail.com','$2y$10$wR3GnjHgfElgeNlRaAUpN.bWhCkVuT6pao9qX1CgFjgo4plG6qLiC'),(4,'grigorie','grigorie@gmail.com','$2y$10$01vPWk46kczNWB2EqR3SCexPVy2yhu/UEThNOQdk/Lehygzjtfzde'),(5,'marry','marry@gmail.com','$2y$10$NYUuVwc6lQp2RkQAWhvLxe0G7c6FajipDwdlTn9PpfoljPKxvUvLO'),(6,'andre michel','michel@gmail.com','$2y$10$bGDAipK2liOhxhlygtGd6eUrKlT2mBCnQFQbsTEtH2CgbfIOsRBAe'),(7,'antony','antony@gmail.com','$2y$10$t.L4qFJwWPk2FgrLwxYN1uUgRwrS5ojd/sbsZaU.oMlKeRpO4jcEy');
+INSERT INTO `users` VALUES (1,'stefan','stefan@gmail.com','$2y$10$B2/kqhdp66mprPgknIyEv.2sl4q5dIzYY.aYmyLqLSZojs7foD2zq'),(2,'tamara','tamara@gmail.com','$2y$10$RWu5xLwwxE7HCd2dH.yvue4jeOE31lOiagDuiyINubuGD237o/t0u'),(3,'dennis','dennis@gmail.com','$2y$10$wR3GnjHgfElgeNlRaAUpN.bWhCkVuT6pao9qX1CgFjgo4plG6qLiC'),(6,'andre michel','michel@gmail.com','$2y$10$bGDAipK2liOhxhlygtGd6eUrKlT2mBCnQFQbsTEtH2CgbfIOsRBAe'),(7,'antony','antony@gmail.com','$2y$10$t.L4qFJwWPk2FgrLwxYN1uUgRwrS5ojd/sbsZaU.oMlKeRpO4jcEy'),(8,'bob','bob@gmail.com','$2y$10$DY1P04QgJiVXeXaJgzmmqu6T08rKzD0h2RV//ULjOUU.RlssyRLMy');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +245,7 @@ CREATE TABLE `usersevents` (
 
 LOCK TABLES `usersevents` WRITE;
 /*!40000 ALTER TABLE `usersevents` DISABLE KEYS */;
-INSERT INTO `usersevents` VALUES (1,1),(1,2),(1,3),(1,7),(2,1),(2,3),(2,4),(2,5),(3,1),(3,3),(3,6);
+INSERT INTO `usersevents` VALUES (1,1),(1,2),(1,3),(1,7),(3,1),(3,3),(3,6),(3,8);
 /*!40000 ALTER TABLE `usersevents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +272,7 @@ CREATE TABLE `usershosts` (
 
 LOCK TABLES `usershosts` WRITE;
 /*!40000 ALTER TABLE `usershosts` DISABLE KEYS */;
-INSERT INTO `usershosts` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,7),(2,6);
+INSERT INTO `usershosts` VALUES (1,1),(1,2),(1,3),(1,7),(2,1),(2,6),(2,8);
 /*!40000 ALTER TABLE `usershosts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -285,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-15  6:38:12
+-- Dump completed on 2024-05-24  6:30:34
